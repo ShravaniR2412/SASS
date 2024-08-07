@@ -1,21 +1,20 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SalonRegistrationForm from './SalonRegistrationForm';
-import SalonDashboard from './SalonDashboard';
-import Profile from './Profile';
-import Services from './Services'
-import Packages from './Packages';  // Ensure the file is named Packages.jsx
-import Products from './Products';  // Ensure the file is named Products.jsx
-
+import Registration from './pages/salon/Registration';
+import Dashboard from './pages/salon/Dashboard';
+import Profile from './pages/salon/Profile';
+import AddServices from './pages/salon/AddServices'
+import AddPackages from './pages/salon/AddPackages';  
+import AddProducts from './pages/salon/AddProducts';  
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SalonRegistrationForm />} />
-        <Route path="/dashboard" element={<SalonDashboard />} />
+        <Route path="/" element={<Registration />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/packages" element={<Packages />} />
-        <Route path="/products" element={<Products />} />
+        <Route path="/addservices" element={<AddServices />} />
+        <Route path="/addpackages" element={<AddPackages />} />
+        <Route path="/addproducts" element={<AddProducts />} />
       </Routes>
     </Router>
   );
