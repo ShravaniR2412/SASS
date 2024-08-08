@@ -1,5 +1,6 @@
 // src/components/SalonRegistrationForm.js
 import React, { useState } from 'react';
+import axios from 'axios';
 
 
 const Registration = () => {
@@ -43,11 +44,16 @@ const Registration = () => {
     return formErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validate();
     if (Object.keys(formErrors).length === 0) {
-      console.log('Form submitted successfully', formData);
+      try {
+        const response = await axios.post('http://localhost:5050/api/users/register', formData);
+        console.log('Form submitted successfully', response.data);
+      } catch (error) {
+        console.error('There was an error submitting the form!', error);
+      }
     } else {
       setErrors(formErrors);
     }
