@@ -1,6 +1,8 @@
 // src/components/SalonRegistrationForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../../register.css'; 
+
 
 
 const Registration = () => {
@@ -152,5 +154,6 @@ const Registration = () => {
     </div>
   );
 };
+
 
 export default Registration;
