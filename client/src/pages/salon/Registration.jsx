@@ -144,11 +144,12 @@ const Registration = () => {
           </div>
           <button 
             type="submit" 
-            className="w-auto bg-customTeal text-white py-2 px-3 rounded-md shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-customTeal"
+            className="bg-teal-500 text-white px-4 py-2 rounded-md w-full hover:bg-teal-700 hover:text-white"
           >
             Register
           </button>
         </form>
+
       </div>
       <div className="image-container"></div>
     </div>

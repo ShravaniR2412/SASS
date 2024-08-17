@@ -1,5 +1,4 @@
-// src/Products.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AddProducts = () => {
@@ -7,35 +6,81 @@ const AddProducts = () => {
     productName: '',
     productDescription: '',
     productPrice: '',
-    productPictures: []
+    productPictures: undefined,
+    licenseNumber: localStorage.getItem('licenseNumber') || '' // Fetch license number from localStorage
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if the token exists in localStorage
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      // If no token, redirect to login page
+      alert('Please log in to access this page');
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleProductChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === 'file') {
-      setProductData({
-        ...productData,
-        [name]: files
-      });
+      setProductData(prevData => ({
+        ...prevData,
+        productPictures: files
+      }));
     } else {
-      setProductData({
-        ...productData,
+      setProductData(prevData => ({
+        ...prevData,
         [name]: value
-      });
+      }));
     }
   };
 
-  const handleSubmit = () => {
-    // You may want to add validation and save data here
-    navigate('/dashboard');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const formData = new FormData();
+    formData.append('productName', productData.productName);
+    formData.append('productDescription', productData.productDescription);
+    formData.append('productPrice', productData.productPrice);
+    formData.append('licenseNumber', productData.licenseNumber);
+  
+    try {
+      const token = localStorage.getItem('authToken');
+  
+      const response = await fetch('http://localhost:5050/api/products/addproducts', {
+        method: 'POST',
+        headers: {
+          'x-auth-token': token,
+        },
+        body: formData
+      });
+  
+      if (response.status === 401) {
+        // If token is invalid or missing, redirect to login page
+        alert('Session expired or Invalid token. Please log in again.');
+        localStorage.removeItem('authToken'); // Remove invalid token
+        navigate('/login');
+      } else if (response.ok) {
+        const data = await response.json();
+        alert(data.message);
+        navigate('/dashboard');
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to add product');
+      }
+    } catch (error) {
+      console.error('Error adding product:', error.message);
+      alert('Error adding product: ' + error.message);
+    }
   };
+  
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h3 className="text-2xl font-semibold mb-6">4. Add Products</h3>
       <form>
-        <div className="mb-4">
+      <div className="mb-4">
           <label htmlFor="productName" className="block text-lg font-medium mb-2">Product Name</label>
           <input
             type="text"

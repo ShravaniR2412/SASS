@@ -1,7 +1,6 @@
 import User from '../models/users.js';
 import bcrypt from 'bcryptjs';
 
-// Registration controller
 export const registerUser = async (req, res) => {
   const { ownerName, salonName, licenseNumber, email, password } = req.body;
 
@@ -28,6 +27,7 @@ export const registerUser = async (req, res) => {
     // Save the user to the database
     await user.save();
 
+    // Send response indicating successful registration
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
     console.error(err.message);
