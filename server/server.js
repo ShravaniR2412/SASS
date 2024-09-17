@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import cors from 'cors'; // Import cors
 import userRoutes from './routes/userRoute.js';
 import productRoutes from './routes/productRoute.js';
+import serviceRoutes from './routes/serviceRoute.js';
 import { auth } from './middleware/auth.js'; // Import named export
 
 const app = express();
@@ -29,8 +30,9 @@ mongoose.connect(dbURI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Use the authentication middleware for product routes
+// Use the authentication middleware routes
 app.use('/api/products', auth, productRoutes); 
+app.use('/api/services', auth, serviceRoutes); 
 
 
 app.use('/api/users', userRoutes);
