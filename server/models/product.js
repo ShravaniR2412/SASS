@@ -13,10 +13,10 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  productPictures: {
-    type: [String], // Array of strings to store multiple image URLs
-    required: false
-  },
+  // productPictures: {
+  //   type: [String], // Array of strings to store multiple image URLs
+  //   required: false
+  // },
   licenseNumber: {
     type: String,
     required: true

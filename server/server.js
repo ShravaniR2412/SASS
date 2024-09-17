@@ -10,8 +10,13 @@ import { auth } from './middleware/auth.js'; // Import named export
 
 const app = express();
 
+// Middleware to handle JSON payloads
+app.use(express.json()); 
+
+// Middleware to handle URL-encoded form data
+app.use(express.urlencoded({ extended: true })); 
+
 app.use(cors()); // Use cors middleware
-app.use(express.json()); // Middleware to parse JSON requests
 
 const dbURI = process.env.ATLAS_URI;
 const jwtSecret = process.env.JWT_SECRET;
@@ -25,9 +30,9 @@ mongoose.connect(dbURI)
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Use the authentication middleware for product routes
-app.use('/api/products', auth, productRoutes); // Apply auth middleware to /api/products
+app.use('/api/products', auth, productRoutes); 
 
-// User routes do not require authentication middleware
+
 app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 5050;

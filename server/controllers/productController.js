@@ -2,42 +2,50 @@ import Product from '../models/product.js';
 
 // Create a new product
 export const createProduct = async (req, res) => {
-    try {
-      const { productName, productDescription, productPrice } = req.body;
-      
-      // Retrieve the licenseNumber from localStorage or wherever it's stored
-      const licenseNumber = req.body.licenseNumber || ''; // Adjust according to your actual data retrieval
-  
-      // Handle file uploads (assuming productPictures is an array of file URLs)
-      const productPictures = req.files ? req.files.map(file => file.path) : [];
-  
-      const newProduct = new Product({
-        productName,
-        productDescription,
-        productPrice,
-        productPictures,
-        licenseNumber
-      });
-  
-      await newProduct.save();
-  
-      res.status(201).json({
-        message: 'Product added successfully!',
-        product: newProduct
-      });
-    } catch (error) {
-      console.error(error.message);
-      res.status(500).json({
-        message: 'Server error',
-        error: error.message
-      });
+  try {
+    
+    const { productName, productDescription, productPrice, licenseNumber } = req.body;
+
+    // Ensure all required fields are present
+    if (!productName || !productDescription || !productPrice || !licenseNumber) {
+      return res.status(400).json({ message: 'All fields are required.' });
     }
-  };
+  
+   
+    const newProduct = new Product({
+      productName,
+      productDescription,
+      productPrice,
+      licenseNumber
+    });
+
+    await newProduct.save();
+
+    res.status(201).json({
+      message: 'Product added successfully!',
+      product: newProduct
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({
+      message: 'Server error',
+      error: error.message
+    });
+  }
+};
 
 // Get all products
+// Product controller
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const { licenseNumber } = req.body; // Extract licenseNumber from request body
+
+    if (!licenseNumber) {
+      return res.status(400).json({ message: 'License number is required.' });
+    }
+
+    // Fetch products matching the license number
+    const products = await Product.find({ licenseNumber });
     res.status(200).json(products);
   } catch (error) {
     console.error(error.message);
@@ -47,6 +55,8 @@ export const getProducts = async (req, res) => {
     });
   }
 };
+
+
 
 // Get a single product by ID
 export const getProductById = async (req, res) => {

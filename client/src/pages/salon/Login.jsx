@@ -6,14 +6,14 @@ import loginImage from "../../assets/Login.png";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [recaptchaToken, setRecaptchaToken] = useState(null); // For storing reCAPTCHA token
+  const [recaptchaToken, setRecaptchaToken] = useState(null); 
   const navigate = useNavigate();
 
-  // Replace with your reCAPTCHA site key
+  
   const recaptchaSiteKey = "6LfZsSgqAAAAADILAqP30cd6uPX9lZezvJIVdeQp";
 
   const handleRecaptchaChange = (token) => {
-    setRecaptchaToken(token); // Store the reCAPTCHA token when verified
+    setRecaptchaToken(token); 
   };
 
   const handleLogin = async () => {
@@ -21,7 +21,7 @@ function Login() {
       const userCredentials = {
         email: email,
         password: password,
-        recaptchaToken: recaptchaToken, // Send the reCAPTCHA token to the server
+        recaptchaToken: recaptchaToken,
       };
 
       try {

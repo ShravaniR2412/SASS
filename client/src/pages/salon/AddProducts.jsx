@@ -6,7 +6,7 @@ const AddProducts = () => {
     productName: '',
     productDescription: '',
     productPrice: '',
-    productPictures: undefined,
+    productPictures: [], // Changed to array for file inputs
     licenseNumber: localStorage.getItem('licenseNumber') || '' // Fetch license number from localStorage
   });
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const AddProducts = () => {
     if (type === 'file') {
       setProductData(prevData => ({
         ...prevData,
-        productPictures: files
+        productPictures: Array.from(files) // Convert FileList to array
       }));
     } else {
       setProductData(prevData => ({
@@ -39,11 +39,30 @@ const AddProducts = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
+    // Basic validation
+    if (!productData.productName || !productData.productDescription || !productData.productPrice || !productData.licenseNumber) {
+      alert('All fields are required. Please fill out the product name, description, price, and license number.');
+      return;
+    }
+  
     const formData = new FormData();
     formData.append('productName', productData.productName);
     formData.append('productDescription', productData.productDescription);
     formData.append('productPrice', productData.productPrice);
     formData.append('licenseNumber', productData.licenseNumber);
+
+    // Convert FormData to Object
+    const formDataToObject = (formData) => {
+      const obj = {};
+      for (let [key, value] of formData.entries()) {
+        obj[key] = value;
+      }
+      return obj;
+    };
+   const dataObject = formDataToObject(formData);
+  //  console.log(dataObject)
+
+    
   
     try {
       const token = localStorage.getItem('authToken');
@@ -52,14 +71,14 @@ const AddProducts = () => {
         method: 'POST',
         headers: {
           'x-auth-token': token,
+          'Content-Type': 'application/json'
         },
-        body: formData
+        body: JSON.stringify(dataObject)
       });
   
       if (response.status === 401) {
-        // If token is invalid or missing, redirect to login page
         alert('Session expired or Invalid token. Please log in again.');
-        localStorage.removeItem('authToken'); // Remove invalid token
+        localStorage.removeItem('authToken');
         navigate('/login');
       } else if (response.ok) {
         const data = await response.json();
@@ -79,8 +98,8 @@ const AddProducts = () => {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h3 className="text-2xl font-semibold mb-6">4. Add Products</h3>
-      <form>
-      <div className="mb-4">
+      <form onSubmit={handleSubmit}> 
+        <div className="mb-4">
           <label htmlFor="productName" className="block text-lg font-medium mb-2">Product Name</label>
           <input
             type="text"
@@ -132,8 +151,7 @@ const AddProducts = () => {
         </div>
 
         <button
-          type="button"
-          onClick={handleSubmit}
+          type="submit" 
           className="bg-teal-600 text-white px-6 py-3 rounded-md hover:bg-teal-700"
         >
           Save Details
