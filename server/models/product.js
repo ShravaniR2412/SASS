@@ -5,18 +5,18 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  productDescription: {
+  description: {
     type: String,
     required: true
   },
-  productPrice: {
+  price: {
     type: String,
     required: true
   },
-  // productPictures: {
-  //   type: [String], // Array of strings to store multiple image URLs
-  //   required: false
-  // },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
   licenseNumber: {
     type: String,
     required: true

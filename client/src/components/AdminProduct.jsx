@@ -53,8 +53,8 @@ export default function AdminProduct() {
           {products.map((product) => (
             <tr key={product._id}>
               <td className="py-2 px-4 border-b">{product.productName}</td>
-              <td className="py-2 px-4 border-b">{product.productDescription}</td>
-              <td className="py-2 px-4 border-b">{product.productPrice}</td>
+              <td className="py-2 px-4 border-b">{product.description}</td>
+              <td className="py-2 px-4 border-b">{product.price}</td>
               <td className="py-2 px-4 border-b flex space-x-2">
                 <button className="bg-blue-500 text-white px-3 py-1 rounded">Update</button>
                 <button className="bg-red-500 text-white px-3 py-1 rounded">Delete</button>

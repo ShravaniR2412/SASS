@@ -1,164 +1,143 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AddProducts = () => {
-  const [productData, setProductData] = useState({
-    productName: '',
-    productDescription: '',
-    productPrice: '',
-    productPictures: [], // Changed to array for file inputs
-    licenseNumber: localStorage.getItem('licenseNumber') || '' // Fetch license number from localStorage
-  });
+export default function AddProduct() {
+  const [forms, setForms] = useState([
+    { id: Date.now(), productName: '', description: '', price: '', imageUrl: '' }
+  ]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check if the token exists in localStorage
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      // If no token, redirect to login page
-      alert('Please log in to access this page');
-      navigate('/login');
-    }
-  }, [navigate]);
+  const handleChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedForms = [...forms];
+    updatedForms[index][name] = value;
+    setForms(updatedForms);
+  };
 
-  const handleProductChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === 'file') {
-      setProductData(prevData => ({
-        ...prevData,
-        productPictures: Array.from(files) // Convert FileList to array
-      }));
-    } else {
-      setProductData(prevData => ({
-        ...prevData,
-        [name]: value
-      }));
+  const addForm = () => {
+    setForms([...forms, { id: Date.now(), productName: '', description: '', price: '', imageUrl: '' }]);
+  };
+
+  const deleteForm = (index) => {
+    if (forms.length > 1) {
+      const updatedForms = forms.filter((_, formIndex) => formIndex !== index);
+      setForms(updatedForms);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    const licenseNumber = localStorage.getItem('licenseNumber');
+
     // Basic validation
-    if (!productData.productName || !productData.productDescription || !productData.productPrice || !productData.licenseNumber) {
-      alert('All fields are required. Please fill out the product name, description, price, and license number.');
+    if (!licenseNumber || forms.some(form => !form.productName || !form.price)) {
+      alert('All fields are required. Please fill out product details.');
       return;
     }
-  
-    const formData = new FormData();
-    formData.append('productName', productData.productName);
-    formData.append('productDescription', productData.productDescription);
-    formData.append('productPrice', productData.productPrice);
-    formData.append('licenseNumber', productData.licenseNumber);
 
-    // Convert FormData to Object
-    const formDataToObject = (formData) => {
-      const obj = {};
-      for (let [key, value] of formData.entries()) {
-        obj[key] = value;
-      }
-      return obj;
-    };
-   const dataObject = formDataToObject(formData);
-  //  console.log(dataObject)
+    // Prepare product data for submission
+    const productsData = forms.map((form) => ({
+      productName: form.productName,
+      description: form.description,
+      price: parseFloat(form.price), // Ensure price is a number
+      imageUrl: form.imageUrl,
+      licenseNumber: licenseNumber,
+    }));
 
-    
-  
     try {
       const token = localStorage.getItem('authToken');
-  
+
       const response = await fetch('http://localhost:5050/api/products/addproducts', {
         method: 'POST',
         headers: {
           'x-auth-token': token,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(dataObject)
+        body: JSON.stringify({ products: productsData }),
       });
-  
+
       if (response.status === 401) {
         alert('Session expired or Invalid token. Please log in again.');
         localStorage.removeItem('authToken');
         navigate('/login');
       } else if (response.ok) {
         const data = await response.json();
-        alert(data.message);
+        alert(data.message || 'Products added successfully.');
         navigate('/dashboard');
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to add product');
+        throw new Error(errorData.message || 'Failed to add products');
       }
     } catch (error) {
-      console.error('Error adding product:', error.message);
-      alert('Error adding product: ' + error.message);
+      console.error('Error adding products:', error.message);
+      alert('Error adding products: ' + error.message);
     }
   };
-  
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h3 className="text-2xl font-semibold mb-6">4. Add Products</h3>
-      <form onSubmit={handleSubmit}> 
-        <div className="mb-4">
-          <label htmlFor="productName" className="block text-lg font-medium mb-2">Product Name</label>
-          <input
-            type="text"
-            id="productName"
-            name="productName"
-            value={productData.productName}
-            onChange={handleProductChange}
-            className="block w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Enter product name"
-          />
-        </div>
+    <div className="mx-auto p-6 bg-white shadow-md rounded-lg">
+      <header className="text-center mb-6 w-full p-10 bg-gray-300">
+        <h1 className="text-3xl font-bold">Add Multiple Products</h1>
+      </header>
 
-        <div className="mb-4">
-          <label htmlFor="productDescription" className="block text-lg font-medium mb-2">Description</label>
-          <textarea
-            id="productDescription"
-            name="productDescription"
-            value={productData.productDescription}
-            onChange={handleProductChange}
-            rows="3"
-            className="block w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Enter product description"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="productPrice" className="block text-lg font-medium mb-2">Price</label>
-          <input
-            type="text"
-            id="productPrice"
-            name="productPrice"
-            value={productData.productPrice}
-            onChange={handleProductChange}
-            className="block w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Enter product price"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="productPictures" className="block text-lg font-medium mb-2">Product Pictures</label>
-          <input
-            type="file"
-            id="productPictures"
-            name="productPictures"
-            multiple
-            onChange={handleProductChange}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-md file:text-sm file:font-semibold file:bg-teal-100 file:text-teal-700 hover:file:bg-teal-200"
-          />
-        </div>
-
-        <button
-          type="submit" 
-          className="bg-teal-600 text-white px-6 py-3 rounded-md hover:bg-teal-700"
-        >
-          Save Details
+      <form onSubmit={handleSubmit} className="space-y-4 mb-8">
+        {forms.map((form, index) => (
+          <div key={form.id} className="mb-8">
+            <h2 className="text-xl mb-4">Product {index + 1}</h2>
+            <label className="block mb-2">
+              <span className="text-gray-700">Product Name:</span>
+              <input
+                type="text"
+                name="productName"
+                value={form.productName}
+                onChange={(event) => handleChange(index, event)}
+                className="block w-full p-2 border border-gray-300 rounded-md"
+              />
+            </label>
+            <label className="block mb-2">
+              <span className="text-gray-700">Description:</span>
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={(event) => handleChange(index, event)}
+                className="block w-full p-2 border border-gray-300 rounded-md"
+              />
+            </label>
+            <label className="block mb-2">
+              <span className="text-gray-700">Price:</span>
+              <input
+                type="text"
+                name="price"
+                value={form.price}
+                onChange={(event) => handleChange(index, event)}
+                className="block w-full p-2 border border-gray-300 rounded-md"
+              />
+            </label>
+            <label className="block mb-2">
+              <span className="text-gray-700">Image URL:</span>
+              <input
+                type="text"
+                name="imageUrl"
+                value={form.imageUrl}
+                onChange={(event) => handleChange(index, event)}
+                className="block w-full p-2 border border-gray-300 rounded-md"
+              />
+            </label>
+            {forms.length > 1 && (
+              <button type="button" onClick={() => deleteForm(index)} className="text-red-500">
+                Remove Product
+              </button>
+            )}
+            <hr className="my-4" />
+          </div>
+        ))}
+        <button type="button" onClick={addForm} className="bg-blue-500 text-white py-2 px-4 rounded">
+          Add Another Product
+        </button>
+        <button type="submit" className="bg-teal-500 text-white py-2 px-4 rounded ml-4">
+          Submit Products
         </button>
       </form>
     </div>
   );
-};
-
-export default AddProducts;
+}

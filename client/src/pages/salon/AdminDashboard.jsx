@@ -24,8 +24,8 @@ const AdminDashboard = () => {
       heading: 'General',
       subHeadings: [
         { path: '/admin/products', name: 'Products' },
-        { path: '/admin/packages', name: 'Packages' },
         { path: '/admin/services', name: 'Services' },
+        { path: '/admin/packages', name: 'Packages' },
         { path: '/admin/reports', name: 'Reports' },
         { path: '/admin/settings', name: 'Settings' },
       ],

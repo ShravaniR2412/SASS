@@ -37,8 +37,6 @@ function Login() {
           const data = await response.json();
           const { token, licenseNumber } = data;
 
-          console.log(data); // Log the data to see if licenseNumber is being received
-
           // Save the token and licenseNumber to localStorage
           localStorage.setItem("authToken", token);
           localStorage.setItem("licenseNumber", licenseNumber);

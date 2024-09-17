@@ -11,7 +11,7 @@ import AdminDashboard from './pages/salon/AdminDashboard';
 import AdminProfile from './components/AdminProfile';
 import AdminProduct from './components/AdminProduct';
 import AdminServices from './components/AdminServices';
-
+import UpdateService from './components/UpdateService';
 function App() {
   return (
     <Router>
@@ -20,14 +20,18 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/addservices" element={<AddServices />} />
-        <Route path="/addpackages" element={<AddPackages />} />
-        <Route path="/addproducts" element={<AddProducts />} />
+        
         <Route path="/admin" element={<AdminDashboard />}>
         
           <Route path="profile" element={<AdminProfile />} />
           <Route path="services" element={<AdminServices />} />
           <Route path="products" element={<AdminProduct />} />
+
+          <Route path="addservices" element={<AddServices />} />
+          <Route path="addpackages" element={<AddPackages />} />
+          <Route path="addproducts" element={<AddProducts />} />
+
+          <Route path="services/update/:id" element={<UpdateService />} />
           {/* Add other nested routes for AdminDashboard here */}
         </Route>
       </Routes>
