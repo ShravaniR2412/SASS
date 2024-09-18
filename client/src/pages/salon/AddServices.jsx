@@ -88,7 +88,7 @@ const AddServices = () => {
         {forms.map((form, index) => (
           <div key={form.id}>
             <h1 className="text-center text-1xl mb-8 font-xl">Service {index + 1}</h1>
-            <div className='mx-20'>
+            <div className='mx-10'>
               <label htmlFor={`category-${index}`} className="block mb-2 text-gray-700">
                 Category:
               </label>
@@ -109,24 +109,24 @@ const AddServices = () => {
             <div className='flex mt-8'>
               <div className='flex-1 space-y-4'>
                 <label className="block">
-                  <span className="text-gray-700 ml-20 mb-8">Name of service:</span>
+                  <span className="text-gray-700 ml-10 mb-8">Name of service:</span>
                   <input 
                     type="text" 
                     name="serviceName" 
                     value={form.serviceName} 
                     onChange={(event) => handleChange(index, event)}
-                    className="mt-1 ml-20 block w-[650px] p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark" />
+                    className="mt-1 ml-10 block w-[550px] p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark" />
                 </label>
                 <label className="block">
-                  <span className="text-gray-700 ml-20 mb-8">Cost:</span>
+                  <span className="text-gray-700 ml-10 mb-8">Cost:</span>
                   <input 
                     type="text" 
                     name="cost" 
                     value={form.cost}
                     onChange={(event) => handleChange(index, event)}
-                    className="mt-1 ml-20 block w-[650px] p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark" />
+                    className="mt-1 ml-10 block w-[550px] p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark" />
                 </label>
-                <div className='mx-20'>
+                <div className='mx-10'>
                   <label htmlFor={`duration-${index}`} className="block mb-2 text-gray-700">
                     Duration (e.g. 30 minutes, 2 hours):
                   </label>
@@ -141,7 +141,7 @@ const AddServices = () => {
                   />
                 </div> 
               </div>
-              <div className="flex-1 w-48 h-[250px] flex flex-col items-center mr-16 relative">
+              <div className="flex-1 w-48 h-[250px] flex flex-col items-center mr-10 relative">
                 <div
                   className="w-48 h-48 mt-4 bg-gray-200 rounded-md overflow-hidden relative bg-no-repeat bg-center"
                   style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -168,20 +168,20 @@ const AddServices = () => {
               </div>
             </div>
             <label className="block">
-              <span className="text-gray-700 ml-20 mb-8">Description about service:</span>
+              <span className="text-gray-700 ml-10 mb-8">Description about service:</span>
               <textarea 
                 name="description"
                 value={form.description}
                 onChange={(event) => handleChange(index, event)}
-                className="mt-1 ml-20 block w-4/5 p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark"></textarea>
+                className="mt-1 ml-10 block w-4/5 p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark"></textarea>
             </label>
-            <label className="block">
-              <span className="text-gray-700 ml-20 mb-8">Additional Information:</span>
+            <label className="block mt-2">
+              <span className="text-gray-700 ml-10  mb-8">Additional Information:</span>
               <textarea 
                 name="additionalInfo"
                 value={form.additionalInfo}
                 onChange={(event) => handleChange(index, event)}
-                className="mt-1 ml-20 block w-4/5 p-2 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark"></textarea>
+                className="mt-1 ml-10 block w-4/5 p-2 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark"></textarea>
             </label>
             <hr className="mt-8 mb-8" />
           </div>
