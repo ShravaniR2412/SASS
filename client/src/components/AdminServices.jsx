@@ -41,7 +41,6 @@ export default function AdminService() {
 
   const handleUpdate = async (serviceName) => {
     const licenseNumber = localStorage.getItem("licenseNumber");
-  
 
     try {
       const response = await fetch(
@@ -115,46 +114,47 @@ export default function AdminService() {
       alert('Error deleting service. Please try again later.');
     }
   };
-  
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-6">Service List</h2>
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">Service Name</th>
-            <th className="py-2 px-4 border-b">Category</th>
-            <th className="py-2 px-4 border-b">Cost</th>
-            <th className="py-2 px-4 border-b">Duration</th>
-            <th className="py-2 px-4 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {services.map((service) => (
-            <tr key={service._id}>
-              <td className="py-2 px-4 border-b">{service.serviceName}</td>
-              <td className="py-2 px-4 border-b">{service.category}</td>
-              <td className="py-2 px-4 border-b">{service.cost}</td>
-              <td className="py-2 px-4 border-b">{service.duration}</td>
-              <td className="py-2 px-4 border-b flex space-x-2">
-                <button
-                  className="bg-blue-500 text-white px-3 py-1 rounded"
-                  onClick={() => handleUpdate(service.serviceName)}
-                >
-                  Update
-                </button>
-                <button
-                  className="bg-red-500 text-white px-3 py-1 rounded"
-                  onClick={() => handleDelete(service.serviceName)} // Pass the service ID
-                >
-                  Delete
-                </button>
-              </td>
+    <div className="p-6 bg-gray-100 min-h-screen">
+      <h2 className="text-3xl font-semibold mb-6 text-center text-teal-700">Service List</h2>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+          <thead className="bg-teal-500 text-white">
+            <tr>
+              <th className="py-3 px-4 border-b text-left">Service Name</th>
+              <th className="py-3 px-4 border-b text-left">Category</th>
+              <th className="py-3 px-4 border-b text-left">Cost</th>
+              <th className="py-3 px-4 border-b text-left">Duration</th>
+              <th className="py-3 px-4 border-b text-left">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {services.map((service) => (
+              <tr key={service._id} className="hover:bg-gray-50 transition-colors duration-300">
+                <td className="py-3 px-4 border-b">{service.serviceName}</td>
+                <td className="py-3 px-4 border-b">{service.category}</td>
+                <td className="py-3 px-4 border-b">{service.cost}</td>
+                <td className="py-3 px-4 border-b">{service.duration}</td>
+                <td className="py-3 px-4 border-b flex space-x-2">
+                  <button
+                    className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 transition duration-200"
+                    onClick={() => handleUpdate(service.serviceName)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
+                    onClick={() => handleDelete(service.serviceName)} // Pass the service ID
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

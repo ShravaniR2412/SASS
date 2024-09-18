@@ -3,7 +3,7 @@ import backgroundImage from '../../assets/imgbg.png';
 import { useNavigate } from 'react-router-dom';
 
 const AddServices = () => {
-  const [forms, setForms] = useState([{ id: Date.now(), serviceName: '', cost: '', duration: '', category: '', imageUrl: '', description: '', additionalInfo: ''  }]);
+  const [forms, setForms] = useState([{ id: Date.now(), serviceName: '', cost: '', duration: '', category: '', imageUrl: '', description: '', additionalInfo: '' }]);
   const navigate = useNavigate();
 
   const handleChange = (index, event) => {
@@ -23,26 +23,25 @@ const AddServices = () => {
       setForms(updatedForms);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const licenseNumber = localStorage.getItem('licenseNumber');
   
-    // Basic validation
     if (!licenseNumber || forms.some(form => !form.serviceName || !form.cost || !form.duration || !form.category)) {
       alert('All fields are required. Please fill out the service details and license number.');
       return;
     }
   
-    // Prepare service data for submission
     const servicesData = forms.map((form) => ({
       serviceName: form.serviceName,
-      cost: parseFloat(form.cost), // Ensure cost is a number
+      cost: parseFloat(form.cost),
       duration: form.duration,
       category: form.category,
       imageUrl: form.imageUrl,
       description: form.description,
       additionalInfo: form.additionalInfo,
-      licenseNumber: licenseNumber, // Include license number
+      licenseNumber: licenseNumber,
     }));
   
     try {
@@ -51,10 +50,10 @@ const AddServices = () => {
       const response = await fetch('http://localhost:5050/api/services/addservices', {
         method: 'POST',
         headers: {
-          'x-auth-token': token, // Pass token for authentication
+          'x-auth-token': token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ services: servicesData }), // Wrap servicesData in an object with 'services' key
+        body: JSON.stringify({ services: servicesData }),
       });
   
       if (response.status === 401) {
@@ -74,130 +73,129 @@ const AddServices = () => {
       alert('Error adding services: ' + error.message);
     }
   };
-  
-
-  
 
   return (
-    <div className="mx-auto p-6 bg-white shadow-md rounded-lg">
-      <header className="text-center mb-6 w-full p-10 bg-gray-300">
-        <h1 className="text-3xl font-bold">Unleash your potential—list your services here.</h1>
+    <div className="max-w-5xl mx-auto p-8 bg-white shadow-lg rounded-lg">
+      <header className="text-center mb-6 p-6 bg-gradient-to-r from-teal-400 to-teal-500 rounded-t-lg">
+        <h1 className="text-3xl font-bold text-white">Unleash Your Potential—List Your Services Here</h1>
       </header>
 
-      <form onSubmit={handleSubmit} className="service-form space-y-4 mb-8 justify-center">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {forms.map((form, index) => (
-          <div key={form.id}>
-            <h1 className="text-center text-1xl mb-8 font-xl">Service {index + 1}</h1>
-            <div className='mx-20'>
-              <label htmlFor={`category-${index}`} className="block mb-2 text-gray-700">
-                Category:
-              </label>
-              <select
-                id={`category-${index}`}
-                name="category"
-                value={form.category}
-                onChange={(event) => handleChange(index, event)}
-                className="border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark text-gray-900 text-sm focus:ring-teal-500 focus:border-gray-900 block w-full p-2.5">
-                <option value="" className='text-gray-500'>Select a category</option>
-                <option value="HAIR">HAIR</option>
-                <option value="SKIN">SKIN</option>
-                <option value="MAKEUP">MAKEUP</option>
-                <option value="OTHER">OTHER</option>
-              </select>
-            </div> 
-
-            <div className='flex mt-8'>
-              <div className='flex-1 space-y-4'>
-                <label className="block">
-                  <span className="text-gray-700 ml-20 mb-8">Name of service:</span>
-                  <input 
-                    type="text" 
-                    name="serviceName" 
-                    value={form.serviceName} 
-                    onChange={(event) => handleChange(index, event)}
-                    className="mt-1 ml-20 block w-[650px] p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark" />
-                </label>
-                <label className="block">
-                  <span className="text-gray-700 ml-20 mb-8">Cost:</span>
-                  <input 
-                    type="text" 
-                    name="cost" 
-                    value={form.cost}
-                    onChange={(event) => handleChange(index, event)}
-                    className="mt-1 ml-20 block w-[650px] p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark" />
-                </label>
-                <div className='mx-20'>
-                  <label htmlFor={`duration-${index}`} className="block mb-2 text-gray-700">
-                    Duration (e.g. 30 minutes, 2 hours):
-                  </label>
-                  <input
-                    type="text"
-                    id={`duration-${index}`}
-                    name="duration"
-                    value={form.duration}
-                    onChange={(event) => handleChange(index, event)}
-                    placeholder="Enter duration"
-                    className="border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark text-gray-900 text-sm focus:ring-teal-500 focus:border-gray-900 block w-full p-2.5"
-                  />
-                </div> 
-              </div>
-              <div className="flex-1 w-48 h-[250px] flex flex-col items-center mr-16 relative">
-                <div
-                  className="w-48 h-48 mt-4 bg-gray-200 rounded-md overflow-hidden relative bg-no-repeat bg-center"
-                  style={{ backgroundImage: `url(${backgroundImage})` }}
+          <div key={form.id} className="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold text-center mb-4">Service {index + 1}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor={`category-${index}`} className="block mb-2 text-gray-700">Category:</label>
+                <select
+                  id={`category-${index}`}
+                  name="category"
+                  value={form.category}
+                  onChange={(event) => handleChange(index, event)}
+                  className="border border-gray-300 rounded-md p-2 w-full text-sm"
                 >
-                  {form.imageUrl && (
-                    <img
-                      src={form.imageUrl}
-                      alt="Service Image"
-                      className="object-contain w-full h-full"
-                    />
-                  )}
-                </div>
-                <label className="block mt-2">
-                  <span className="text-gray-700">Image URL:</span>
-                  <input
-                    type="text"
-                    name="imageUrl"
-                    value={form.imageUrl}
-                    onChange={(event) => handleChange(index, event)}
-                    placeholder="Enter image URL"
-                    className="mt-1 block w-full p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark"
-                  />
-                </label>
+                  <option value="" className="text-gray-500">Select a category</option>
+                  <option value="HAIR">HAIR</option>
+                  <option value="SKIN">SKIN</option>
+                  <option value="MAKEUP">MAKEUP</option>
+                  <option value="OTHER">OTHER</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block mb-2 text-gray-700">Name of Service:</label>
+                <input 
+                  type="text" 
+                  name="serviceName" 
+                  value={form.serviceName} 
+                  onChange={(event) => handleChange(index, event)}
+                  className="border border-gray-300 rounded-md p-2 w-full text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block mb-2 text-gray-700">Cost:</label>
+                <input 
+                  type="text" 
+                  name="cost" 
+                  value={form.cost}
+                  onChange={(event) => handleChange(index, event)}
+                  className="border border-gray-300 rounded-md p-2 w-full text-sm"
+                />
+              </div>
+
+              <div>
+                <label htmlFor={`duration-${index}`} className="block mb-2 text-gray-700">Duration:</label>
+                <input
+                  type="text"
+                  id={`duration-${index}`}
+                  name="duration"
+                  value={form.duration}
+                  onChange={(event) => handleChange(index, event)}
+                  placeholder="Enter duration"
+                  className="border border-gray-300 rounded-md p-2 w-full text-sm"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block mb-2 text-gray-700">Description:</label>
+                <textarea 
+                  name="description"
+                  value={form.description}
+                  onChange={(event) => handleChange(index, event)}
+                  className="border border-gray-300 rounded-md p-2 w-full text-sm"
+                ></textarea>
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block mb-2 text-gray-700">Additional Information:</label>
+                <textarea 
+                  name="additionalInfo"
+                  value={form.additionalInfo}
+                  onChange={(event) => handleChange(index, event)}
+                  className="border border-gray-300 rounded-md p-2 w-full text-sm"
+                ></textarea>
+              </div>
+
+              <div className="md:col-span-2">
+                <label htmlFor={`imageUrl-${index}`} className="block mb-2 text-gray-700">Image URL:</label>
+                <input
+                  type="text"
+                  id={`imageUrl-${index}`}
+                  name="imageUrl"
+                  value={form.imageUrl}
+                  onChange={(event) => handleChange(index, event)}
+                  placeholder="Enter image URL"
+                  className="border border-gray-300 rounded-md p-2 w-full text-sm"
+                />
               </div>
             </div>
-            <label className="block">
-              <span className="text-gray-700 ml-20 mb-8">Description about service:</span>
-              <textarea 
-                name="description"
-                value={form.description}
-                onChange={(event) => handleChange(index, event)}
-                className="mt-1 ml-20 block w-4/5 p-1 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark"></textarea>
-            </label>
-            <label className="block">
-              <span className="text-gray-700 ml-20 mb-8">Additional Information:</span>
-              <textarea 
-                name="additionalInfo"
-                value={form.additionalInfo}
-                onChange={(event) => handleChange(index, event)}
-                className="mt-1 ml-20 block w-4/5 p-2 border border-gray-300 rounded-md shadow-custom-light hover:shadow-custom-dark"></textarea>
-            </label>
-            <hr className="mt-8 mb-8" />
+            <hr className="my-6 border-gray-300" />
           </div>
         ))}
-        <div className="flex justify-between ml-20 mr-40">
-          <button type="button" onClick={addForm} className="submit-btn border-0 text-teal-500 py-2 px-4 rounded-lg w-max text-center hover:bg-teal-50 shadow-md transition-shadow duration-300 active:shadow-lg">
+        <div className="flex justify-between mt-4">
+          <button
+            type="button"
+            onClick={addForm}
+            className="bg-teal-500 text-white py-2 px-6 rounded-lg hover:bg-teal-600 transition duration-300 text-sm"
+          >
             Add More Services
           </button>
           {forms.length > 1 && (
-            <button type="button" onClick={() => deleteForm(forms.length - 1)} className="submit-btn border-0 text-teal-500 py-2 px-4 rounded-lg w-max text-center hover:bg-teal-50 shadow-md transition-shadow duration-300 active:shadow-lg">
+            <button
+              type="button"
+              onClick={() => deleteForm(forms.length - 1)}
+              className="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 transition duration-300 text-sm"
+            >
               Delete
             </button>
           )}
         </div>
         <div className="flex justify-center mt-4">
-          <button type="submit" className="submit-btn bg-teal-500 text-white py-2 px-4 rounded-lg w-max text-center hover:shadow-custom-dark active:bg-gray-200 transition-shadow duration-300 shadow-custom-light">
+          <button
+            type="submit"
+            className="bg-teal-500 text-white py-2 px-6 rounded-lg hover:bg-teal-600 transition duration-300 text-sm"
+          >
             SUBMIT
           </button>
         </div>

@@ -75,69 +75,84 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="mx-auto p-6 bg-white shadow-md rounded-lg">
-      <header className="text-center mb-6 w-full p-10 bg-gray-300">
-        <h1 className="text-3xl font-bold">Add Multiple Products</h1>
-      </header>
+    <div className="w-full min-h-screen bg-gray-100 py-6 px-4">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
+        <header className="text-center mb-4 p-4 bg-gradient-to-r from-teal-400 to-teal-500 rounded-t-lg">
+          <h1 className="text-2xl font-semibold text-white">Add Multiple Products</h1>
+        </header>
 
-      <form onSubmit={handleSubmit} className="space-y-4 mb-8">
-        {forms.map((form, index) => (
-          <div key={form.id} className="mb-8">
-            <h2 className="text-xl mb-4">Product {index + 1}</h2>
-            <label className="block mb-2">
-              <span className="text-gray-700">Product Name:</span>
-              <input
-                type="text"
-                name="productName"
-                value={form.productName}
-                onChange={(event) => handleChange(index, event)}
-                className="block w-full p-2 border border-gray-300 rounded-md"
-              />
-            </label>
-            <label className="block mb-2">
-              <span className="text-gray-700">Description:</span>
-              <textarea
-                name="description"
-                value={form.description}
-                onChange={(event) => handleChange(index, event)}
-                className="block w-full p-2 border border-gray-300 rounded-md"
-              />
-            </label>
-            <label className="block mb-2">
-              <span className="text-gray-700">Price:</span>
-              <input
-                type="text"
-                name="price"
-                value={form.price}
-                onChange={(event) => handleChange(index, event)}
-                className="block w-full p-2 border border-gray-300 rounded-md"
-              />
-            </label>
-            <label className="block mb-2">
-              <span className="text-gray-700">Image URL:</span>
-              <input
-                type="text"
-                name="imageUrl"
-                value={form.imageUrl}
-                onChange={(event) => handleChange(index, event)}
-                className="block w-full p-2 border border-gray-300 rounded-md"
-              />
-            </label>
-            {forms.length > 1 && (
-              <button type="button" onClick={() => deleteForm(index)} className="text-red-500">
-                Remove Product
-              </button>
-            )}
-            <hr className="my-4" />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {forms.map((form, index) => (
+            <div key={form.id} className="bg-gray-50 p-4 rounded-lg shadow-sm">
+              <h2 className="text-lg mb-3 font-medium">Product {index + 1}</h2>
+              <label className="block mb-2 text-sm">
+                <span className="text-gray-700">Product Name:</span>
+                <input
+                  type="text"
+                  name="productName"
+                  value={form.productName}
+                  onChange={(event) => handleChange(index, event)}
+                  className="block w-full mt-1 p-2 border border-gray-300 rounded-md text-sm"
+                />
+              </label>
+              <label className="block mb-2 text-sm">
+                <span className="text-gray-700">Description:</span>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={(event) => handleChange(index, event)}
+                  className="block w-full mt-1 p-2 border border-gray-300 rounded-md text-sm"
+                />
+              </label>
+              <label className="block mb-2 text-sm">
+                <span className="text-gray-700">Price:</span>
+                <input
+                  type="text"
+                  name="price"
+                  value={form.price}
+                  onChange={(event) => handleChange(index, event)}
+                  className="block w-full mt-1 p-2 border border-gray-300 rounded-md text-sm"
+                />
+              </label>
+              <label className="block mb-4 text-sm">
+                <span className="text-gray-700">Image URL:</span>
+                <input
+                  type="text"
+                  name="imageUrl"
+                  value={form.imageUrl}
+                  onChange={(event) => handleChange(index, event)}
+                  className="block w-full mt-1 p-2 border border-gray-300 rounded-md text-sm"
+                />
+              </label>
+              {forms.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => deleteForm(index)}
+                  className="bg-red-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-red-600 transition duration-300 text-sm"
+                >
+                  Remove Product
+                </button>
+              )}
+              <hr className="my-3 border-gray-300" />
+            </div>
+          ))}
+          <div className="flex space-x-4">
+            <button
+              type="button"
+              onClick={addForm}
+              className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 transition duration-300 text-sm"
+            >
+              Add Another Product
+            </button>
+            <button
+              type="submit"
+              className="bg-teal-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-teal-600 transition duration-300 text-sm"
+            >
+              Submit Products
+            </button>
           </div>
-        ))}
-        <button type="button" onClick={addForm} className="bg-blue-500 text-white py-2 px-4 rounded">
-          Add Another Product
-        </button>
-        <button type="submit" className="bg-teal-500 text-white py-2 px-4 rounded ml-4">
-          Submit Products
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

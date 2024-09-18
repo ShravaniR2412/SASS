@@ -51,7 +51,7 @@ const SalonDashboard = () => {
           {/* Box 2 */}
           <div
             className="relative w-full h-56 bg-white shadow-xl rounded-lg flex flex-col items-center justify-center text-center p-4 border border-teal-700 hover:bg-teal-100 hover:translate-y-1 transition-transform duration-300 ease-in-out cursor-pointer"
-            onClick={() => handleBoxClick("/addservices")}
+            onClick={() => handleBoxClick("/admin/addservices")}
           >
             <span className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-700 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold shadow-md">
               2
@@ -67,7 +67,7 @@ const SalonDashboard = () => {
           {/* Box 3 */}
           <div
             className="relative w-full h-56 bg-white shadow-xl rounded-lg flex flex-col items-center justify-center text-center p-4 border border-teal-700 hover:bg-teal-100 hover:translate-y-1 transition-transform duration-300 ease-in-out cursor-pointer"
-            onClick={() => handleBoxClick("/addproducts")}
+            onClick={() => handleBoxClick("/admin/addproducts")}
           >
             <span className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-700 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold shadow-md">
               3
@@ -83,7 +83,7 @@ const SalonDashboard = () => {
           {/* Box 4 */}
           <div
             className="relative w-full h-56 bg-white shadow-xl rounded-lg flex flex-col items-center justify-center text-center p-4 border border-teal-700 hover:bg-teal-100 hover:translate-y-1 transition-transform duration-300 ease-in-out cursor-pointer"
-            onClick={() => handleBoxClick("/addpackages")}
+            onClick={() => handleBoxClick("/admin/addpackages")}
           >
             <span className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-700 text-white w-10 h-10 flex items-center justify-center rounded-full font-bold shadow-md">
               4
@@ -100,7 +100,8 @@ const SalonDashboard = () => {
 
       {/* Save Button */}
       <div className="mt-10 mb-10 flex justify-center">
-        <button className="bg-teal-700 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-teal-600 transition-colors duration-300 ease-in-out min-w-max">
+        <button className="bg-teal-700 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-teal-600 transition-colors duration-300 ease-in-out min-w-max"               onClick={() => handleBoxClick("/admin")}
+        >
           Save Details
         </button>
       </div>

@@ -12,6 +12,8 @@ import AdminProfile from './components/AdminProfile';
 import AdminProduct from './components/AdminProduct';
 import AdminServices from './components/AdminServices';
 import UpdateService from './components/UpdateService';
+import EditProduct from './components/EditProduct'; // Import the new component
+
 function App() {
   return (
     <Router>
@@ -22,17 +24,14 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         
         <Route path="/admin" element={<AdminDashboard />}>
-        
           <Route path="profile" element={<AdminProfile />} />
           <Route path="services" element={<AdminServices />} />
           <Route path="products" element={<AdminProduct />} />
-
           <Route path="addservices" element={<AddServices />} />
           <Route path="addpackages" element={<AddPackages />} />
           <Route path="addproducts" element={<AddProducts />} />
-
           <Route path="services/update/:id" element={<UpdateService />} />
-          {/* Add other nested routes for AdminDashboard here */}
+          <Route path="products/update/:id" element={<EditProduct />} /> 
         </Route>
       </Routes>
     </Router>

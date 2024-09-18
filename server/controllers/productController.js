@@ -102,11 +102,6 @@ export const updateProduct = async (req, res) => {
     const productId = req.params.id;
     const updates = req.body;
 
-    // Handle file uploads if necessary
-    if (req.files) {
-      updates.productPictures = req.files.map(file => file.path);
-    }
-
     const updatedProduct = await Product.findByIdAndUpdate(productId, updates, { new: true });
 
     if (!updatedProduct) {
@@ -115,18 +110,17 @@ export const updateProduct = async (req, res) => {
 
     res.status(200).json({
       message: 'Product updated successfully',
-      product: updatedProduct
+      product: updatedProduct,
     });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({
       message: 'Server error',
-      error: error.message
+      error: error.message,
     });
   }
 };
 
-// Delete a product by ID
 export const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
