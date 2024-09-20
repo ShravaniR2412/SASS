@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Sidebar = ({ sections }) => {
   return (
     <div className="w-64 h-screen bg-teal-600 text-white flex flex-col">
-      <div className="p-4 text-xl font-semibold bg-teal-600 shadow-custom-light">
+      <div className="p-4 text-xl font-semibold bg-teal-600">
         <h2 className="text-white">Salon Dashboard</h2>
       </div>
       <div className="flex-1 overflow-y-auto p-3"> {/* Add overflow-y-auto for scrolling */}
@@ -39,7 +39,7 @@ const Sidebar = ({ sections }) => {
       <div className="p-4 border-t border-gray-700">
         <a
           href="#logout"
-          className="block text-center text-teal-200 hover:text-white"
+          className="block text-center text-gray-400 hover:text-white"
         >
           Logout
         </a>

@@ -13,16 +13,22 @@ import AdminProduct from './components/AdminProduct';
 import AdminServices from './components/AdminServices';
 import UpdateService from './components/UpdateService';
 import EditProduct from './components/EditProduct'; // Import the new component
+import CustomerAppointmentBooking from './pages/customer/CustomerAppointmentBooking';
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
         <Route path="/register" element={<Registration />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
+
+        {/* Customer Booking Route */}
+        <Route path="/booking" element={<CustomerAppointmentBooking />} /> {/* New booking route */}
         
+        {/* Admin Routes */}
         <Route path="/admin" element={<AdminDashboard />}>
           <Route path="profile" element={<AdminProfile />} />
           <Route path="services" element={<AdminServices />} />
@@ -31,7 +37,7 @@ function App() {
           <Route path="addpackages" element={<AddPackages />} />
           <Route path="addproducts" element={<AddProducts />} />
           <Route path="services/update/:id" element={<UpdateService />} />
-          <Route path="products/update/:id" element={<EditProduct />} /> 
+          <Route path="products/update/:id" element={<EditProduct />} />
         </Route>
       </Routes>
     </Router>
