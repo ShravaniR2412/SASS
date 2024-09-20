@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for routing
+import { useNavigate } from "react-router-dom";
+import { Delete, Edit } from "@mui/icons-material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Button,
+  Typography,
+} from "@mui/material";
 
 export default function AdminService() {
   const [services, setServices] = useState([]);
@@ -19,9 +32,9 @@ export default function AdminService() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "x-auth-token": localStorage.getItem("authToken"), // Include the token if needed
+              "x-auth-token": localStorage.getItem("authToken"),
             },
-            body: JSON.stringify({ licenseNumber: storedLicenseNumber }), // Send license number in body
+            body: JSON.stringify({ licenseNumber: storedLicenseNumber }),
           }
         );
 
@@ -72,89 +85,114 @@ export default function AdminService() {
   };
 
   const handleDelete = async (serviceName) => {
-    const licenseNumber = localStorage.getItem('licenseNumber');
-    
+    const licenseNumber = localStorage.getItem("licenseNumber");
+
     try {
-      // Step 1: Fetch the service ID by name and license number
-      const fetchIdResponse = await fetch('http://localhost:5050/api/services/getservicebyname', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': localStorage.getItem('authToken'),
-        },
-        body: JSON.stringify({ licenseNumber, serviceName }),
-      });
-  
+      const fetchIdResponse = await fetch(
+        "http://localhost:5050/api/services/getservicebyname",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": localStorage.getItem("authToken"),
+          },
+          body: JSON.stringify({ licenseNumber, serviceName }),
+        }
+      );
+
       if (!fetchIdResponse.ok) {
-        throw new Error('Failed to fetch service ID');
+        throw new Error("Failed to fetch service ID");
       }
-  
+
       const fetchIdData = await fetchIdResponse.json();
       const serviceId = fetchIdData.service._id;
-  
-      // Step 2: Delete the service using the fetched service ID
-      const deleteResponse = await fetch(`http://localhost:5050/api/services/deleteservice/${serviceId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': localStorage.getItem('authToken'),
-        },
-      });
-  
+
+      const deleteResponse = await fetch(
+        `http://localhost:5050/api/services/deleteservice/${serviceId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": localStorage.getItem("authToken"),
+          },
+        }
+      );
+
       if (deleteResponse.ok) {
-        // Remove deleted service from the list
-        setServices(services.filter((service) => service.serviceName !== serviceName));
-        alert('Service deleted successfully');
+        setServices(
+          services.filter((service) => service.serviceName !== serviceName)
+        );
+        alert("Service deleted successfully");
       } else {
-        console.error('Failed to delete service');
-        alert('Failed to delete service. Please try again.');
+        console.error("Failed to delete service");
+        alert("Failed to delete service. Please try again.");
       }
     } catch (error) {
-      console.error('Error deleting service:', error.message);
-      alert('Error deleting service. Please try again later.');
+      console.error("Error deleting service:", error.message);
+      alert("Error deleting service. Please try again later.");
     }
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h2 className="text-3xl font-semibold mb-6 text-center text-teal-700">Service List</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-          <thead className="bg-teal-500 text-white">
-            <tr>
-              <th className="py-3 px-4 border-b text-left">Service Name</th>
-              <th className="py-3 px-4 border-b text-left">Category</th>
-              <th className="py-3 px-4 border-b text-left">Cost</th>
-              <th className="py-3 px-4 border-b text-left">Duration</th>
-              <th className="py-3 px-4 border-b text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+    <div style={{ padding: "24px", minHeight: "100vh", backgroundColor: "#f0f0f0" }}>
+      <Typography variant="h4" gutterBottom align="center" color="teal">
+        Service List
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow style={{ backgroundColor: "#008080" }}>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                Service Name
+              </TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                Category
+              </TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                Cost
+              </TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                Duration
+              </TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>
+                Actions
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {services.map((service) => (
-              <tr key={service._id} className="hover:bg-gray-50 transition-colors duration-300">
-                <td className="py-3 px-4 border-b">{service.serviceName}</td>
-                <td className="py-3 px-4 border-b">{service.category}</td>
-                <td className="py-3 px-4 border-b">{service.cost}</td>
-                <td className="py-3 px-4 border-b">{service.duration}</td>
-                <td className="py-3 px-4 border-b flex space-x-2">
-                  <button
-                    className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 transition duration-200"
+              <TableRow key={service._id} hover>
+                <TableCell>{service.serviceName}</TableCell>
+                <TableCell>{service.category}</TableCell>
+                <TableCell>{service.cost}</TableCell>
+                <TableCell>{service.duration}</TableCell>
+                <TableCell>
+                  <IconButton
+                    color="primary"
                     onClick={() => handleUpdate(service.serviceName)}
                   >
-                    Update
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
-                    onClick={() => handleDelete(service.serviceName)} // Pass the service ID
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                    color="secondary"
+                    onClick={() => handleDelete(service.serviceName)}
                   >
-                    Delete
-                  </button>
-                </td>
-              </tr>
+                    <Delete />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Button
+        variant="contained"
+        color="primary"
+        style={{ marginTop: "20px" }}
+        onClick={() => navigate("/admin/services/add")}
+      >
+        Add New Service
+      </Button>
     </div>
   );
 }

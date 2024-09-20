@@ -113,7 +113,7 @@ export const updateProduct = async (req, res) => {
       product: updatedProduct,
     });
   } catch (error) {
-    console.error(error.message);
+    // console.error(error.message);
     res.status(500).json({
       message: 'Server error',
       error: error.message,

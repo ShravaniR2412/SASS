@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { CalendarToday, Person, AddShoppingCart, Build, Category, Report, Settings, ShoppingCart, Dashboard } from '@mui/icons-material'; // Import icons
 
 const Sidebar = ({ sections }) => {
   return (
@@ -7,24 +8,32 @@ const Sidebar = ({ sections }) => {
       <div className="p-4 text-xl font-semibold bg-teal-600">
         <h2 className="text-white">Salon Dashboard</h2>
       </div>
-      <div className="flex-1 overflow-y-auto p-3"> {/* Add overflow-y-auto for scrolling */}
+      <div className="flex-1 overflow-y-auto p-3">
         <ul className="space-y-1">
           {sections.map((section, index) => (
             <li key={index} className="group">
-              {/* Main Heading */}
-              <div className="block p-3 w-full text-left rounded-md text-sm font-bold transition-colors duration-150">
+              <div className="flex items-center p-3 w-full text-left rounded-md text-sm font-bold transition-colors duration-150">
+                {section.icon && (
+                  <span className="mr-2">
+                    {React.createElement(section.icon)}
+                  </span>
+                )}
                 {section.heading}
               </div>
 
-              {/* Sub-Headings */}
               {section.subHeadings && (
                 <ul className="pl-6 space-y-1">
                   {section.subHeadings.map((subLink, subIndex) => (
                     <li key={subIndex} className="group">
                       <Link
                         to={subLink.path}
-                        className="block py-3 px-7 hover:bg-gray-700 rounded-md text-xs transition-colors duration-150"
+                        className="flex items-center py-3 px-7 hover:bg-gray-700 rounded-md text-xs transition-colors duration-150"
                       >
+                        {subLink.icon && (
+                          <span className="mr-2">
+                            {React.createElement(subLink.icon)}
+                          </span>
+                        )}
                         {subLink.name}
                       </Link>
                     </li>
@@ -39,8 +48,9 @@ const Sidebar = ({ sections }) => {
       <div className="p-4 border-t border-gray-700">
         <a
           href="#logout"
-          className="block text-center text-gray-400 hover:text-white"
+          className="flex items-center justify-center text-gray-400 hover:text-white"
         >
+          <Settings className="mr-2" />
           Logout
         </a>
       </div>

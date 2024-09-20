@@ -1,37 +1,41 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
+import { CalendarToday, Person, AddShoppingCart, Build, Category, Report, Settings, ShoppingCart, Dashboard } from '@mui/icons-material';
+
 
 const AdminDashboard = () => {
   const sidebarSections = [
     {
       heading: 'Appointments',
+      icon: CalendarToday, // Icon for the main heading
       subHeadings: [
-        { path: '/admin/appointments', name: 'Manage Appointments' },
-        { path: '/admin/calendar', name: 'Profile' },
+        { path: '/admin/appointments', name: 'Manage Appointments', icon: CalendarToday }, // Icon for subheading
+        { path: '/profile', name: 'Profile', icon: Person },
       ],
     },
     {
       heading: 'New',
+      icon: AddShoppingCart, // Icon for 'New'
       subHeadings: [
-        { path: '/admin/addproducts', name: 'Add Products' },
-        { path: '/admin/addservices', name: 'Add Services' },
-        { path: '/admin/addpackages', name: 'Add Packages' },
+        { path: '/admin/addproducts', name: 'Add Products', icon: ShoppingCart },
+        { path: '/admin/addservices', name: 'Add Services', icon: Build },
+        { path: '/admin/addpackages', name: 'Add Packages', icon: Category },
       ],
     },
-   
     {
       heading: 'General',
+      icon: Dashboard, // Icon for 'General'
       subHeadings: [
-        { path: '/admin/products', name: 'Products' },
-        { path: '/admin/services', name: 'Services' },
-        { path: '/admin/packages', name: 'Packages' },
-        { path: '/admin/reports', name: 'Reports' },
-        { path: '/admin/settings', name: 'Settings' },
+        { path: '/admin/products', name: 'Products', icon: ShoppingCart },
+        { path: '/admin/services', name: 'Services', icon: Build },
+        { path: '/admin/packages', name: 'Packages', icon: Category },
+        { path: '/admin/reports', name: 'Reports', icon: Report },
+        { path: '/admin/settings', name: 'Settings', icon: Settings },
       ],
     },
   ];
-
+  
   return (
     <div className="flex">
       <Sidebar sections={sidebarSections} />
