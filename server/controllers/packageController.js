@@ -58,7 +58,7 @@ export const getPackages = async (req, res) => {
     }
 
     const packages = await Package.find({ licenseNumber });
-    res.status(200).json(packages);
+    res.status(200).json({data:packages});
   } catch (error) {
     console.error(error.message);
     res.status(500).json({
