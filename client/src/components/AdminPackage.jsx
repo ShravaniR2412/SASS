@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Use for navigation
+import { Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,IconButton, Box, Button } from "@mui/material";
+import { motion } from "framer-motion";
+import Zoom from "@mui/material/Zoom";
+import { Edit, Delete } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function AdminPackages() {
   const [packages, setPackages] = useState([]);
@@ -63,42 +68,82 @@ export default function AdminPackages() {
     navigate(`update/${pkg._id}`); // Navigate to the update form with package ID
   };
 
+  const buttonStyle = {
+    background: 'linear-gradient(90deg, #008080, #00b3b3)', // Initial gradient
+    color: 'white',
+    transition: 'background 0.5s ease', // Smooth transition for background
+    backgroundSize: '200% 100%', // Allows the gradient to move
+  };
+  
+  const hoverStyle = {
+    backgroundPosition: 'right center', // Moves the gradient on hover
+  };
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h2 className="text-3xl font-semibold mb-6 text-center">Package List</h2>
-      <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-        <thead className="bg-teal-200 text-teal-800">
-          <tr>
-            <th className="py-3 px-4 border-b border-r">Package Name</th>
-            <th className="py-3 px-4 border-b border-r">Description</th>
-            <th className="py-3 px-4 border-b border-r">Price</th>
-            <th className="py-3 px-4 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {packages.map((pkg) => (
-            <tr key={pkg._id} className="hover:bg-gray-100">
-              <td className="py-3 px-4 border-b border-r">{pkg.packageName}</td>
-              <td className="py-3 px-4 border-b border-r">{pkg.description}</td>
-              <td className="py-3 px-4 border-b border-r">{pkg.price}</td>
-              <td className="py-3 px-4 border-b flex space-x-2">
-                <button
-                  className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 transition duration-200"
-                  onClick={() => handleUpdate(pkg)}
-                >
-                  Update
-                </button>
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
-                  onClick={() => handleDelete(pkg._id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Container maxWidth="lg" sx={{ mt: 3 }}>
+      <Typography style={{ fontfamily: "Poppins" }} variant="h4" component="h2" align="center" gutterBottom color="teal">
+        Package List
+      </Typography>
+      <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1 }}>
+        <Table>
+          <TableHead>
+            <TableRow style={{ backgroundColor: "#008080" }}>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>Package Name</TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>Description</TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>Price</TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {packages.map((pkg, index) => (
+              <Zoom in={true} style={{ transitionDelay: `${index * 100}ms` }} key={pkg._id}>
+                <TableRow hover>
+                  <TableCell>{pkg.packageName}</TableCell>
+                  <TableCell>{pkg.description}</TableCell>
+                  <TableCell>{pkg.price}</TableCell>
+                  <TableCell>
+                    <Box display="flex" justifyContent="space-between">
+                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                        <IconButton
+                          aria-label="edit"
+                          sx={{ color: "teal" }}
+                          onClick={() => handleUpdate(pkg)}
+                        >
+                          <Edit />
+                        </IconButton>
+                      </motion.div>
+                      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                        <IconButton
+                          aria-label="delete"
+                          sx={{ color: "error.main" }}
+                          onClick={() => handleDelete(pkg._id)}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </motion.div>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              </Zoom>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <motion.div whileHover={{ ...hoverStyle }}>
+      <Button
+        variant="contained"
+        sx={{
+          ...buttonStyle,
+          marginTop: 2,
+          '&:hover': {
+            backgroundPosition: 'left center', // Change position on hover
+          }
+        }}
+        startIcon={<AddIcon />}
+        onClick={() => navigate("/admin/addpackages")}
+      >
+        Add New Packages
+      </Button>
+      </motion.div>
+    </Container>
   );
 }

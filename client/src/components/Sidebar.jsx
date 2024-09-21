@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarToday, Person, AddShoppingCart, Build, Category, Report, Settings, ShoppingCart, Dashboard } from '@mui/icons-material'; // Import icons
 
+
 const Sidebar = ({ sections }) => {
   return (
     <div className="w-64 h-screen bg-teal-600 text-white flex flex-col">
@@ -27,7 +28,7 @@ const Sidebar = ({ sections }) => {
                     <li key={subIndex} className="group">
                       <Link
                         to={subLink.path}
-                        className="flex items-center py-3 px-7 hover:bg-gray-700 rounded-md text-xs transition-colors duration-150"
+                        className="flex items-center py-3 px-7 hover:bg-gray-700 focus:bg-teal-800 rounded-md text-xs transition-colors duration-150"
                       >
                         {subLink.icon && (
                           <span className="mr-2">
@@ -48,8 +49,7 @@ const Sidebar = ({ sections }) => {
       <div className="p-4 border-t border-gray-700">
         <a
           href="#logout"
-          className="flex items-center justify-center text-gray-400 hover:text-white"
-        >
+          className="flex items-center justify-center text-gray-400 hover:text-white">
           <Settings className="mr-2" />
           Logout
         </a>

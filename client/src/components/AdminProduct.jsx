@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Use for navigation
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Container, Box, Zoom, Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { motion } from 'framer-motion';
+import AddIcon from "@mui/icons-material/Add";
 
 export default function AdminProduct() {
   const [products, setProducts] = useState([]);
@@ -63,42 +68,94 @@ export default function AdminProduct() {
     navigate(`update/${product._id}`); // Navigate to the update form with product ID
   };
 
+  const buttonStyle = {
+    background: 'linear-gradient(90deg, #008080, #00b3b3)', // Initial gradient
+    color: 'white',
+    transition: 'background 0.5s ease', // Smooth transition for background
+    backgroundSize: '200% 100%', // Allows the gradient to move
+  };
+  
+  const hoverStyle = {
+    backgroundPosition: 'right center', // Moves the gradient on hover
+  };
+
+
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h2 className="text-3xl font-semibold mb-6 text-center">Product List</h2>
-      <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-        <thead className="bg-teal-200 text-teal-800">
-          <tr>
-            <th className="py-3 px-4 border-b border-r">Product Name</th>
-            <th className="py-3 px-4 border-b border-r">Description</th>
-            <th className="py-3 px-4 border-b border-r">Price</th>
-            <th className="py-3 px-4 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product._id} className="hover:bg-gray-100">
-              <td className="py-3 px-4 border-b border-r">{product.productName}</td>
-              <td className="py-3 px-4 border-b border-r">{product.description}</td>
-              <td className="py-3 px-4 border-b border-r">{product.price}</td>
-              <td className="py-3 px-4 border-b flex space-x-2">
-                <button
-                  className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 transition duration-200"
-                  onClick={() => handleUpdate(product)}
-                >
-                  Update
-                </button>
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
-                  onClick={() => handleDelete(product._id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Container maxWidth="lg" sx={{ mt: 3 }}>
+      <Typography style={{ fontfamily: "Poppins" }} variant="h4" component="h2" align="center" gutterBottom color="teal">
+        Product List
+      </Typography>
+
+      <TableContainer component={Paper} sx={{ boxShadow: 3, borderRadius: 1 }}>
+        <Table>
+          <TableHead>
+            <TableRow style={{ backgroundColor: "#008080" }}>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>Product Name</TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>Description</TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>Price</TableCell>
+              <TableCell style={{ color: "white", fontWeight: "bold" }}>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {products.map((product, index) => (
+              <Zoom in={true} style={{ transitionDelay: `${index * 100}ms` }} key={product._id}>
+                <TableRow hover>
+                  <TableCell>{product.productName}</TableCell>
+                  <TableCell>{product.description}</TableCell>
+                  <TableCell>{product.price}</TableCell>
+                  <TableCell>
+                    <Box display="flex" justifyContent="space-between">
+                      {/* Update Icon */}
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <IconButton 
+                          aria-label="edit"
+                          sx={{ color: 'teal' }} 
+                          onClick={() => handleUpdate(product)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </motion.div>
+
+                      {/* Delete Icon */}
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        <IconButton
+                          aria-label="delete"
+                          sx={{ color: "error.main" }}
+                          onClick={() => handleDelete(product._id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </motion.div>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              </Zoom>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <motion.div whileHover={{ ...hoverStyle }}>
+      <Button
+        variant="contained"
+        sx={{
+          ...buttonStyle,
+          marginTop: 2,
+          '&:hover': {
+            backgroundPosition: 'left center', // Change position on hover
+          }
+        }}
+        startIcon={<AddIcon />}
+        onClick={() => navigate("/admin/addproducts")}
+      >
+        Add New Products
+      </Button>
+      </motion.div>
+    </Container>
   );
 }
