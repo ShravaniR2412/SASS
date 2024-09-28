@@ -17,7 +17,7 @@ import EditProduct from './components/EditProduct'; // Import the new component
 import EditPackage from './components/EditPackage'; // Import the new component
 import CustomerAppointmentBooking from './pages/customer/CustomerAppointmentBooking';
 import Home from './pages/customer/Home';
-
+import Cproduct from './pages/customer/Cproduct';
 
 function App() {
   return (
@@ -29,6 +29,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/home/products" element={<Cproduct/>} />
 
 
         {/* Customer Booking Route */}

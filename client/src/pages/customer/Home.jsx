@@ -140,7 +140,7 @@ const Home = () => {
               borderRadius: '8px', 
               '&:hover': { backgroundColor: '#0A6D6D' } 
             }} 
-            onClick={() => window.location.href='/products'}
+            onClick={() => window.location.href='home/products'}
           >
             Explore More
           </Button>
