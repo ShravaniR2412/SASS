@@ -1,7 +1,7 @@
 import Appointment from '../models/appointment.js';
 
 // Create a new appointment
-e// Create a new appointment
+// Create a new appointment
 export const createAppointment = async (req, res) => {
     try {
       const { name, email, phone, services, packages, date, time, licenseNumber } = req.body;
