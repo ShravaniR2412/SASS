@@ -90,12 +90,12 @@ const Home = () => {
           variant="h5"
           align="center"
           sx={{
-            color: '#0B7D7D',
+            color: 'black',
             fontWeight: 'bold',
             py: 1,
             marginBottom: 4,
           }}>
-          New Product Arrivals !
+          New Product Arrivals
         </Typography>
 
         <Grid container spacing={2} justifyContent="center">
@@ -153,11 +153,13 @@ const Home = () => {
           variant="h5"
           align="center"
           sx={{
-            color: '#0B7D7D',
+            color: 'black',
             fontWeight: 'bold',
             py: 1,
+            marginBottom: 4,
+
           }}>
-          Explore our Services !
+          Explore our Services
         </Typography>
 
         <Grid container spacing={2} justifyContent="center">
@@ -203,8 +205,7 @@ const Home = () => {
               borderRadius: '8px', 
               '&:hover': { backgroundColor: '#0A6D6D' } 
             }} 
-            onClick={() => window.location.href='/services'}
-          >
+            onClick={() => window.location.href='home/services'}          >
             Explore More
           </Button>
         </Box>
@@ -216,12 +217,12 @@ const Home = () => {
           variant="h5"
           align="center"
           sx={{
-            color: '#0B7D7D',
+            color: 'black',
             fontWeight: 'bold',
             py: 1,
             marginBottom: 4,
           }}>
-          Explore our Packages !
+          Explore our Packages
         </Typography>
 
         <Grid container spacing={2} justifyContent="center">

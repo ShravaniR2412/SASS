@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, useMediaQuery, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import { Person, Menu, BorderAll, Padding } from '@mui/icons-material';
+import { Person, Menu } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 // Import Google Fonts
@@ -19,12 +19,8 @@ const Navbar = () => {
     color: 'white', // White text color
     fontSize: '17px',
     marginRight: '20px',
-    margin:'20px',
-    BorderAll:'10px',
-    // marginBottom: '20px',
+    margin: '20px',
     transition: 'all 0.3s ease', // Smooth transition for hover effects
-    Padding:'2px',
-    
   };
 
   const linkHoverStyle = (e) => {
@@ -33,13 +29,11 @@ const Navbar = () => {
     e.currentTarget.style.padding = '2px '; // Increase padding on hover to expand the size
     e.currentTarget.style.transition = 'transform 0.3s ease, background-color 0.3s ease'; // Smooth transition for size, padding, and background
   };
-  
+
   const linkOutStyle = (e) => {
     e.currentTarget.style.backgroundColor = 'transparent'; // Remove background when not hovered
-    // e.currentTarget.style.padding = '8px 12px'; // Reset padding to original state
   };
-  
- 
+
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -56,29 +50,31 @@ const Navbar = () => {
         <Toolbar>
           {/* Logo and Brand Name */}
           <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <img 
-              src={logo} 
-              alt="GlamEase Logo" 
-              style={{ width: '55px', height: '55px', marginRight: '10px' }} // Adjust logo size and spacing
-            />
-            <Typography 
-              variant="h6" 
-              component="div" 
-              sx={{ 
-                color: 'white', // White text color
-                fontFamily: "'Dancing Script', cursive", // Proper cursive font for GLAMEASE
-                fontSize: '1.8rem', // Slightly larger font size
-              }}
-            >
-              GlamEase
-            </Typography>
+            <Link to="/home" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+              <img 
+                src={logo} 
+                alt="GlamEase Logo" 
+                style={{ width: '55px', height: '55px', marginRight: '10px' }} // Adjust logo size and spacing
+              />
+              <Typography 
+                variant="h6" 
+                component="div" 
+                sx={{ 
+                  color: 'white', // White text color
+                  fontFamily: "'Dancing Script', cursive", // Proper cursive font for GLAMEASE
+                  fontSize: '1.8rem', // Slightly larger font size
+                }}
+              >
+                GlamEase
+              </Typography>
+            </Link>
           </Box>
 
           {/* Navigation Links for Desktop */}
           {!isMobile ? (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Link
-                to="/services"
+                to="/home/services"
                 style={linkStyle}
                 onMouseOver={linkHoverStyle}
                 onMouseOut={linkOutStyle}
@@ -86,7 +82,7 @@ const Navbar = () => {
                 Services
               </Link>
               <Link
-                to="/packages"
+                to="/home/packages"
                 style={linkStyle}
                 onMouseOver={linkHoverStyle}
                 onMouseOut={linkOutStyle}
@@ -94,7 +90,7 @@ const Navbar = () => {
                 Packages
               </Link>
               <Link
-                to="/products"
+                to="/home/products"
                 style={linkStyle}
                 onMouseOver={linkHoverStyle}
                 onMouseOut={linkOutStyle}
@@ -119,13 +115,13 @@ const Navbar = () => {
       {/* Drawer for Mobile */}
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
         <List>
-          <ListItem button component={Link} to="/services" onClick={toggleDrawer}>
+          <ListItem button component={Link} to="/home/services" onClick={toggleDrawer}>
             <ListItemText primary="Services" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
-          <ListItem button component={Link} to="/packages" onClick={toggleDrawer}>
+          <ListItem button component={Link} to="/home/packages" onClick={toggleDrawer}>
             <ListItemText primary="Packages" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
-          <ListItem button component={Link} to="/products" onClick={toggleDrawer}>
+          <ListItem button component={Link} to="/home/products" onClick={toggleDrawer}>
             <ListItemText primary="Products" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
         </List>

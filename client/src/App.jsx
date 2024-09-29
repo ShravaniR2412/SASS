@@ -19,6 +19,8 @@ import CustomerAppointmentBooking from './pages/customer/CustomerAppointmentBook
 import Home from './pages/customer/Home';
 import Cproduct from './pages/customer/Cproduct';
 import Cpackage from './pages/customer/Cpackage';
+import Cservices from './pages/customer/Cservices';
+
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/home/products" element={<Cproduct/>} />
         <Route path="/home/packages" element={<Cpackage/>} />
+        <Route path="/home/services" element={<Cservices/>} />
+
 
 
         {/* Customer Booking Route */}
