@@ -18,6 +18,7 @@ import EditPackage from './components/EditPackage'; // Import the new component
 import CustomerAppointmentBooking from './pages/customer/CustomerAppointmentBooking';
 import Home from './pages/customer/Home';
 import Cproduct from './pages/customer/Cproduct';
+import Cpackage from './pages/customer/Cpackage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/home" element={<Home />} />
         <Route path="/home/products" element={<Cproduct/>} />
+        <Route path="/home/packages" element={<Cpackage/>} />
 
 
         {/* Customer Booking Route */}

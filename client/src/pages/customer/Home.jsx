@@ -267,7 +267,7 @@ const Home = () => {
               borderRadius: '8px', 
               '&:hover': { backgroundColor: '#0A6D6D' } 
             }} 
-            onClick={() => window.location.href='/packages'}
+            onClick={() => window.location.href='home/packages'}
           >
             Explore More
           </Button>
