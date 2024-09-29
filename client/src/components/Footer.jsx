@@ -5,7 +5,7 @@ import { Facebook, Twitter, Instagram } from '@mui/icons-material';
 const Footer = () => {
   return (
     <Box sx={{ backgroundColor: '#0B7D7D', color: 'white', py: 4, textAlign: 'center' }}>
-      <Typography variant="body1" sx={{ fontFamily: 'Poppins' }}>
+      <Typography variant="body1" sx={{  }}>
         © 2024 Glamease - All Rights Reserved
       </Typography>
 

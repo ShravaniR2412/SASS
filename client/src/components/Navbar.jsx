@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, useMediaQuery, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import { Person, Menu } from '@mui/icons-material';
+import { Person, Menu, BorderAll, Padding } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+
+// Import Google Fonts
+import '@fontsource/dancing-script'; // Cursive font
+import '@fontsource/poppins'; // Simple modern font
+
+// Import the logo image
+import logo from '../../src/assets/logo1.png'; // Make sure the path to logo.png is correct
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -9,20 +16,30 @@ const Navbar = () => {
 
   const linkStyle = {
     textDecoration: 'none',
-    color: '#0B7D7D',
+    color: 'white', // White text color
+    fontSize: '17px',
     marginRight: '20px',
-    transition: 'color 0.3s ease',
-    fontWeight: 'bold', // Make the font bold
+    margin:'20px',
+    BorderAll:'10px',
+    // marginBottom: '20px',
+    transition: 'all 0.3s ease', // Smooth transition for hover effects
+    Padding:'2px',
+    
   };
 
   const linkHoverStyle = (e) => {
-    e.currentTarget.style.color = '#004D40'; // Change color on hover
+    e.currentTarget.style.backgroundColor = '#004D40'; // Dark teal background on hover
+    e.currentTarget.style.borderRadius = '5px'; // Add more border radius on hover
+    e.currentTarget.style.padding = '2px '; // Increase padding on hover to expand the size
+    e.currentTarget.style.transition = 'transform 0.3s ease, background-color 0.3s ease'; // Smooth transition for size, padding, and background
   };
-
+  
   const linkOutStyle = (e) => {
-    e.currentTarget.style.color = '#0B7D7D'; // Restore color when not hovered
+    e.currentTarget.style.backgroundColor = 'transparent'; // Remove background when not hovered
+    // e.currentTarget.style.padding = '8px 12px'; // Reset padding to original state
   };
-
+  
+ 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -32,19 +49,34 @@ const Navbar = () => {
       <AppBar 
         position="static" 
         sx={{ 
-          backgroundColor: '#EAEAEA', 
-          boxShadow: '0 8px 20px rgba(0, 0, 0, 0.9)', // Increased box shadow
+          backgroundColor: '#008080', // Teal background color
+          marginBottom: '10px', // Add margin at the bottom of the navbar
         }}
       >
         <Toolbar>
-          {/* Brand Name */}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold', color: '#0B7D7D' }}>
-            GLAMEASE
-          </Typography>
+          {/* Logo and Brand Name */}
+          <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+            <img 
+              src={logo} 
+              alt="GlamEase Logo" 
+              style={{ width: '55px', height: '55px', marginRight: '10px' }} // Adjust logo size and spacing
+            />
+            <Typography 
+              variant="h6" 
+              component="div" 
+              sx={{ 
+                color: 'white', // White text color
+                fontFamily: "'Dancing Script', cursive", // Proper cursive font for GLAMEASE
+                fontSize: '1.8rem', // Slightly larger font size
+              }}
+            >
+              GlamEase
+            </Typography>
+          </Box>
 
           {/* Navigation Links for Desktop */}
           {!isMobile ? (
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Link
                 to="/services"
                 style={linkStyle}
@@ -69,18 +101,18 @@ const Navbar = () => {
               >
                 Products
               </Link>
+
+              {/* Profile Icon */}
+              <IconButton sx={{ color: 'white' }}>
+                <Person />
+              </IconButton>
             </Box>
           ) : (
             // Hamburger Menu for Mobile
-            <IconButton edge="end" onClick={toggleDrawer} sx={{ color: '#0B7D7D' }}>
+            <IconButton edge="end" onClick={toggleDrawer} sx={{ color: 'white' }}>
               <Menu />
             </IconButton>
           )}
-
-          {/* Profile Icon */}
-          <IconButton sx={{ color: '#0B7D7D' }}>
-            <Person />
-          </IconButton>
         </Toolbar>
       </AppBar>
 
@@ -88,13 +120,13 @@ const Navbar = () => {
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
         <List>
           <ListItem button component={Link} to="/services" onClick={toggleDrawer}>
-            <ListItemText primary="Services" />
+            <ListItemText primary="Services" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
           <ListItem button component={Link} to="/packages" onClick={toggleDrawer}>
-            <ListItemText primary="Packages" />
+            <ListItemText primary="Packages" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
           <ListItem button component={Link} to="/products" onClick={toggleDrawer}>
-            <ListItemText primary="Products" />
+            <ListItemText primary="Products" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
         </List>
       </Drawer>
