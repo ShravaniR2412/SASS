@@ -1,6 +1,6 @@
 // routes/packageRoutes.js
 import express from 'express';
-import { createPackage, getPackages, getPackageById, updatePackage, deletePackage } from '../controllers/packageController.js';
+import { createPackage,getAllPackages, getPackages, getPackageById, updatePackage, deletePackage } from '../controllers/packageController.js';
 
 const router = express.Router();
 
@@ -9,6 +9,9 @@ router.post('/addpackages', createPackage);
 
 // Route to get packages by license number
 router.post('/getpackages', getPackages);
+
+// Route to get all packages 
+router.get('/getallpackages', getAllPackages);
 
 // Route to get a single package by ID
 router.get('/:id', getPackageById);

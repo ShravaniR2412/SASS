@@ -10,13 +10,12 @@ export default function AdminPackages() {
   const [packages, setPackages] = useState([]);
   const [licenseNumber, setLicenseNumber] = useState('');
   const navigate = useNavigate(); // Initialize navigation
-
+  console.log("hi" , licenseNumber)
   useEffect(() => {
     const storedLicenseNumber = localStorage.getItem('licenseNumber');
     setLicenseNumber(storedLicenseNumber || '');
-
-    // Fetch packages from the server
-    const fetchPackages = async () => {
+  
+    const fetchPackages = async (licenseNumber) => {
       try {
         const response = await fetch('http://localhost:5050/api/packages/getpackages', {
           method: 'POST',
@@ -24,22 +23,26 @@ export default function AdminPackages() {
             'Content-Type': 'application/json',
             'x-auth-token': localStorage.getItem('authToken'), // Include the token if needed
           },
-          body: JSON.stringify({ licenseNumber: storedLicenseNumber }), // Send license number in body
+          body: JSON.stringify({ licenseNumber }), // Send license number in body
         });
-
+  
         if (response.ok) {
           const data = await response.json();
-          setPackages(data);
+          setPackages(data.data); // Accessing the 'data' property from the response
         } else {
-          console.error('Failed to fetch packages');
+          console.error('Failed to fetch packages:', await response.json());
         }
       } catch (error) {
         console.error('Error fetching packages:', error.message);
       }
     };
-
-    fetchPackages();
-  }, []);
+  
+    // Call fetchPackages only if licenseNumber is set
+    if (storedLicenseNumber) {
+      fetchPackages(storedLicenseNumber);
+    }
+  }, []); // Dependency array remains empty to run once on mount
+  
 
   const handleDelete = async (packageId) => {
     try {

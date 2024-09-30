@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, getProducts, getProductById, updateProduct, deleteProduct } from '../controllers/productController.js';
+import { createProduct, getProducts, getProductById, updateProduct, deleteProduct,getAllProducts } from '../controllers/productController.js';
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ router.post('/addproducts', createProduct);
 
 // Route to get products by license number
 router.post('/getproducts', getProducts);
+
+// Route to get all products 
+router.get('/getallproducts', getAllProducts);
 
 // Route to get a single product by ID
 router.get('/:id', getProductById);

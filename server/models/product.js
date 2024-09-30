@@ -20,6 +20,10 @@ const ProductSchema = new mongoose.Schema({
   licenseNumber: {
     type: String,
     required: true
+  },
+  category: {
+    type: String,
+    required: true
   }
 });
 

@@ -1,57 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Footer from '../../components/Footer'; // Import the Footer component
 import Navbar from '../../components/Navbar'; // Import the Navbar component
-import ProductCard from '../../components/Productcard';
+import ProductCard from '../../components/ProductCard';
 
 function Cproduct() {
-  const products = [
-    {
-      imageSrc: 'https://cdn11.bigcommerce.com/s-xyx0x9ybhg/images/stencil/1280x1280/products/316/9012/51wZC83hRrL._SL1500___02415.1721204262.jpg?c=2',
-      imageAlt: 'Hair spa',
-      serviceName: 'Pantene Shampoo',
-      outlets: 'Outlet 1',
-      description: 'Pantene Advanced Hair Fall Solution Shampoo, 1 L',
-      price: 500,
-      category: 'Hair',
-    },
-    {
-      imageSrc: 'https://cdn.anscommerce.com/image/tr:e-sharpen-01,h-1500,w-1500,cm-pad_resize/catalog/philipspc/product/BHS732-10/BHS732-10_1.jpg',
-      imageAlt: 'facial',
-      serviceName: 'Hair Straightener',
-      outlets: 'Outlet 2',
-      description: 'UV Protect Hair Straightener | Argan oil Floating plates | ThermoShield Tech | BHS732/10',
-      price: 800,
-      category: 'Hair',
-    },
-    {
-      imageSrc: 'https://dazller.co.in/cdn/shop/products/FRONTIMAGEBROWN.jpg?v=1712668524',
-      imageAlt: 'manicure',
-      serviceName: 'Eye Liner',
-      outlets: 'Outlet 1',
-      description: 'Ultimate choice for anyone looking for a smudge-proof, waterproof, long-lasting, quick-drying, lightweight, single stroke application eyeliner with a velvet finish.',
-      price: 300,
-      category: 'Makeup',
-    },
-    {
-      imageSrc: 'https://www.reneecosmetics.in/cdn/shop/files/Renee_Stunner_Lipstick_Listing_Image_1_3060bef8-8ee6-4f75-b930-78fb60e9e5b2.jpg?v=1704702917',
-      imageAlt: 'facial',
-      serviceName: 'RENEE Stunner Matte Lipstick',
-      outlets: 'Outlet 3',
-      description: 'RENEE Stunner Matte Lipstick‘s velvety texture glides effortlessly onto your lips',
-      price: 1200,
-      category: 'Makeup',
-    },
-    // Additional products can be added here if needed
-  ];
-
-  const outlets = ['All', 'Outlet 1', 'Outlet 2', 'Outlet 3'];
-  const priceRanges = ['All', 'Below ₹500', '₹500 - ₹1000', 'Above ₹1000'];
-  const categories = ['All', 'Hair', 'Makeup', 'Skin', 'Eyes', 'Other'];
-
+  const [products, setProducts] = useState([]);
   const [selectedOutlet, setSelectedOutlet] = useState('All');
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
+
+  // Fetch products from the API
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:5050/api/products/getallproducts', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-token': localStorage.getItem('authToken'), // Include the token if needed
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data); // Set the fetched products in state
+      } else {
+        console.error('Failed to fetch products');
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error.message);
+    }
+  };
+  
+
+  // Fetch products when the component mounts
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   // Filter products based on the selected outlet, price range, and category
   const filteredProducts = products.filter(product => {
@@ -62,7 +47,7 @@ function Cproduct() {
     if (selectedPriceRange === 'Below ₹500') {
       priceMatch = product.price < 500;
     } else if (selectedPriceRange === '₹500 - ₹1000') {
-      priceMatch = product.price >= 500 && product.price <= 1000; // Corrected service.price to product.price
+      priceMatch = product.price >= 500 && product.price <= 1000;
     } else if (selectedPriceRange === 'Above ₹1000') {
       priceMatch = product.price > 1000;
     }
@@ -84,7 +69,7 @@ function Cproduct() {
             <h5 className="mb-2 mx-auto max-w-screen-md font-bold text-gray-900 md:text-2xl">
               Where Your Beauty Dreams Become Reality
             </h5>
-            <p className='w-max mx-auto text-center max-w-screen-lg text-gray-900 md:text-xl mb-2'>
+            <p className="w-max mx-auto text-center max-w-screen-lg text-gray-900 md:text-xl mb-2">
               Explore our diverse range of services designed to pamper you from head to toe, making your beauty dreams a reality. Your journey to radiant beauty starts here!
             </p>
           </motion.div>
@@ -97,22 +82,6 @@ function Cproduct() {
             className="mb-8 flex gap-8 border-b border-gray-300 pb-4"
           >
             <div className="flex gap-2 items-center">
-              <label className="text-gray-700 font-semibold" htmlFor="outlet-select">Filter by Outlet:</label>
-              <select
-                id="outlet-select"
-                value={selectedOutlet}
-                onChange={(e) => setSelectedOutlet(e.target.value)}
-                className="p-2 border rounded shadow-sm hover:border-teal-500 transition duration-200"
-              >
-                {outlets.map((outlet, index) => (
-                  <option key={index} value={outlet}>
-                    {outlet}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex gap-2 items-center">
               <label className="text-gray-700 font-semibold" htmlFor="price-range-select">Filter by Price Range:</label>
               <select
                 id="price-range-select"
@@ -120,7 +89,7 @@ function Cproduct() {
                 onChange={(e) => setSelectedPriceRange(e.target.value)}
                 className="p-2 border rounded shadow-sm hover:border-teal-500 transition duration-200"
               >
-                {priceRanges.map((priceRange, index) => (
+                {['All', 'Below ₹500', '₹500 - ₹1000', 'Above ₹1000'].map((priceRange, index) => (
                   <option key={index} value={priceRange}>
                     {priceRange}
                   </option>
@@ -136,7 +105,7 @@ function Cproduct() {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="p-2 border rounded shadow-sm hover:border-teal-500 transition duration-200"
               >
-                {categories.map((category, index) => (
+                {['All', 'Hair', 'Makeup', 'Skin', 'Eyes', 'Other'].map((category, index) => (
                   <option key={index} value={category}>
                     {category}
                   </option>
@@ -149,10 +118,9 @@ function Cproduct() {
             {filteredProducts.map((product, index) => (
               <ProductCard
                 key={index}
-                imageSrc={product.imageSrc}
-                imageAlt={product.imageAlt}
-                serviceName={product.serviceName}
-                outlets={product.outlets}
+                imageSrc={product.imageUrl}
+                imageAlt={product.productName}
+                serviceName={product.productName}
                 description={product.description}
                 price={`₹${product.price}`}
                 category={product.category}

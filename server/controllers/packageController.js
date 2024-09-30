@@ -58,12 +58,26 @@ export const getPackages = async (req, res) => {
     }
 
     const packages = await Package.find({ licenseNumber });
-    res.status(200).json({data:packages});
+    res.status(200).json({ data: packages });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({
       message: 'Server error',
       error: error.message,
+    });
+  }
+};
+
+// Get all packages
+export const getAllPackages = async (req, res) => {
+  try {
+    const packages = await Package.find(); 
+    res.status(200).json(packages); 
+  } catch (error) {
+    console.error('Error fetching packages:', error.message);
+    res.status(500).json({
+      message: 'Server error',
+      error: error.message
     });
   }
 };

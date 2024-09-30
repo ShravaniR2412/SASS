@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function AddProduct() {
   const [forms, setForms] = useState([
-    { id: Date.now(), productName: '', description: '', price: '', imageUrl: '' }
+    { id: Date.now(), productName: '', description: '', price: '', imageUrl: '',categor:'' }
   ]);
   const navigate = useNavigate();
 
@@ -42,6 +42,7 @@ export default function AddProduct() {
       price: parseFloat(form.price), // Ensure price is a number
       imageUrl: form.imageUrl,
       licenseNumber: licenseNumber,
+      category: form.category,
     }));
 
     try {
@@ -114,6 +115,25 @@ export default function AddProduct() {
                   className="block w-full mt-1 p-2 border border-gray-300 rounded-md text-sm"
                 />
               </label>
+
+              {/* Category Dropdown */}
+              <label className="block mb-2 text-sm">
+                <span className="text-gray-700">Category:</span>
+                <select
+                  name="category"
+                  value={form.category}
+                  onChange={(event) => handleChange(index, event)}
+                  className="block w-full mt-1 p-2 border border-gray-300 rounded-md text-sm"
+                >
+                  <option value="">Select Category</option>
+                  <option value="Hair">Hair</option>
+                  <option value="Makeup">Makeup</option>
+                  <option value="Skin">Skin</option>
+                  <option value="Eyes">Eyes</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+
               <label className="block mb-4 text-sm">
                 <span className="text-gray-700">Image URL:</span>
                 <input

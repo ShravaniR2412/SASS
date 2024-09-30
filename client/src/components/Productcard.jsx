@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const ProductCard = ({ imageSrc, imageAlt, serviceName, outlets, description, price, category }) => {
+const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, category }) => {
   return (
     <motion.div  
     className="flex flex-col overflow-hidden rounded-lg border bg-white transition-shadow duration-300 shadow-lg "
@@ -25,8 +25,7 @@ const ProductCard = ({ imageSrc, imageAlt, serviceName, outlets, description, pr
           <a href="#" className="transition duration-100 hover:text-teal-500 active:text-teal-600">
             {serviceName}
           </a>
-          <span className="block text-sm text-pink-700">{outlets}</span>
-          <span className="block text-xs text-white">{category}</span> {/* Added category field */}
+          <span className="block text-xs text-black">{category}</span> {/* Added category field */}
         </h2>
 
         <p className="mb-8 text-gray-500">
