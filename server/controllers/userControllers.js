@@ -2,9 +2,14 @@ import User from '../models/users.js';
 import bcrypt from 'bcryptjs';
 
 export const registerUser = async (req, res) => {
-  const { ownerName, salonName, licenseNumber, email, password } = req.body;
+  const { ownerName, salonName, licenseNumber, email, password, location } = req.body;
 
   try {
+    // Input validation
+    if (!ownerName || !salonName || !licenseNumber || !email || !password || !location) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     // Check if the user already exists
     let user = await User.findOne({ email });
     if (user) {
@@ -18,6 +23,7 @@ export const registerUser = async (req, res) => {
       licenseNumber,
       email,
       password,
+      location, // Add location here
     });
 
     // Hash the password before saving

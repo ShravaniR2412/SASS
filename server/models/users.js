@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema(
     licenseNumber: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    location: { type: String, required: true }, // Ensure location is included
   },
   { timestamps: true }
 );
