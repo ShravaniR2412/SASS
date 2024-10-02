@@ -40,3 +40,23 @@ export const registerUser = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+export const getUserProfile = async (req, res) => {
+  try {
+    const userId = req.user.id; // Assuming you're using middleware to get user info from token
+
+    // Find the user by ID
+    const user = await User.findById(userId).select('-password'); // Exclude password from response
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json({ data: user }); // Return user data
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+
