@@ -2,3 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+.main-content {
+    margin-left: 256px; /* Sidebar width + any additional spacing */
+  }
+  

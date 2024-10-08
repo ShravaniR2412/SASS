@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddPackages() {
   const [forms, setForms] = useState([{ id: Date.now(), packageName: '', description: '', price: '', duration: '', servicesIncluded: '', imageUrl: '' }]);
@@ -28,7 +30,7 @@ export default function AddPackages() {
     const licenseNumber = localStorage.getItem('licenseNumber');
 
     if (!licenseNumber || forms.some(form => !form.packageName || !form.price)) {
-      alert('All fields are required. Please fill out package details.');
+      toast.error('All fields are required. Please fill out package details.');
       return;
     }
 
@@ -54,21 +56,24 @@ export default function AddPackages() {
       });
 
       if (response.ok) {
-        alert('Packages added successfully.');
-        navigate('/dashboard');
+        toast.success("Packages Added Successfully!"); // Show toast notification
+        
+        setTimeout(() => {
+          navigate('/dashboard'); // Navigate after a delay to allow toast to display
+        }, 2500);
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);
       }
     } catch (error) {
-      alert('Error: ' + error.message);
+      toast.error('Error: ' + error.message);
     }
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 py-6 px-4">
+    <div className="w-full min-h-screen bg-gray-100 py-6 px-4 ml-20">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <header className="text-center mb-4 p-4 bg-gradient-to-r from-teal-400 to-teal-500 rounded-t-lg">
+      <header className="text-center mb-4 p-4 bg-teal-500 rounded-t-lg">
           <h1 className="text-2xl font-semibold text-white">Add Multiple Packages</h1>
         </header>
 
@@ -165,6 +170,7 @@ export default function AddPackages() {
           </div>
         </form>
       </div>
+      <ToastContainer autoClose={2000} /> {/* Auto close after 5 seconds */}
     </div>
   );
 }

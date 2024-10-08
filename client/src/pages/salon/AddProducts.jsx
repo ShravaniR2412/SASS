@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddProduct() {
   const [forms, setForms] = useState([
-    { id: Date.now(), productName: '', description: '', price: '', imageUrl: '',categor:'' }
+    { id: Date.now(), productName: '', description: '', price: '', imageUrl: '', category: '' }
   ]);
   const navigate = useNavigate();
 
@@ -15,7 +17,7 @@ export default function AddProduct() {
   };
 
   const addForm = () => {
-    setForms([...forms, { id: Date.now(), productName: '', description: '', price: '', imageUrl: '' }]);
+    setForms([...forms, { id: Date.now(), productName: '', description: '', price: '', imageUrl: '', category: '' }]);
   };
 
   const deleteForm = (index) => {
@@ -31,7 +33,7 @@ export default function AddProduct() {
 
     // Basic validation
     if (!licenseNumber || forms.some(form => !form.productName || !form.price)) {
-      alert('All fields are required. Please fill out product details.');
+      toast.error('All fields are required. Please fill out product details.');
       return;
     }
 
@@ -58,27 +60,29 @@ export default function AddProduct() {
       });
 
       if (response.status === 401) {
-        alert('Session expired or Invalid token. Please log in again.');
+        toast.error('Session expired or invalid token. Please log in again.');
         localStorage.removeItem('authToken');
         navigate('/login');
-      } else if (response.ok) {
-        const data = await response.json();
-        alert(data.message || 'Products added successfully.');
-        navigate('/dashboard');
+      } else  if (response.ok) {
+        toast.success("Products Added Successfully!"); // Show toast notification
+        
+        setTimeout(() => {
+          navigate('/dashboard'); // Navigate after a delay to allow toast to display
+        }, 2500);
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to add products');
       }
     } catch (error) {
       console.error('Error adding products:', error.message);
-      alert('Error adding products: ' + error.message);
+      toast.error('Error adding products: ' + error.message);
     }
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 py-6 px-4">
+    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mr-20">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
-        <header className="text-center mb-4 p-4 bg-gradient-to-r from-teal-400 to-teal-500 rounded-t-lg">
+        <header className="text-center mb-4 p-4 bg-teal-500 rounded-t-lg">
           <h1 className="text-2xl font-semibold text-white">Add Multiple Products</h1>
         </header>
 
@@ -173,6 +177,7 @@ export default function AddProduct() {
           </div>
         </form>
       </div>
+      <ToastContainer autoClose={2000} /> {/* Auto close after 5 seconds */}
     </div>
   );
 }

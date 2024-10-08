@@ -82,7 +82,7 @@ export default function AdminPackages() {
     backgroundPosition: 'right center', // Moves the gradient on hover
   };
   return (
-    <Container maxWidth="lg" sx={{ mt: 3 }}>
+    <Container maxWidth="md" sx={{ mt: 3 ,ml:40 }}>
       <Typography style={{ fontfamily: "Poppins" }} variant="h4" component="h2" align="center" gutterBottom color="teal">
         Package List
       </Typography>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import backgroundImage from '../../assets/imgbg.png';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddServices = () => {
   const [forms, setForms] = useState([{ id: Date.now(), serviceName: '', cost: '', duration: '', category: '', imageUrl: '', description: '', additionalInfo: '' }]);
@@ -29,7 +30,7 @@ const AddServices = () => {
     const licenseNumber = localStorage.getItem('licenseNumber');
   
     if (!licenseNumber || forms.some(form => !form.serviceName || !form.cost || !form.duration || !form.category)) {
-      alert('All fields are required. Please fill out the service details and license number.');
+      toast.error('All fields are required. Please fill out the service details and license number.');
       return;
     }
   
@@ -57,26 +58,28 @@ const AddServices = () => {
       });
   
       if (response.status === 401) {
-        alert('Session expired or Invalid token. Please log in again.');
+        toast.error('Session expired or invalid token. Please log in again.');
         localStorage.removeItem('authToken');
         navigate('/login');
       } else if (response.ok) {
-        const data = await response.json();
-        alert(data.message || 'Services added successfully.');
-        navigate('/dashboard');
-      } else {
+        toast.success("Services Added Successfully!"); // Show toast notification
+        
+        setTimeout(() => {
+          navigate('/dashboard'); // Navigate after a delay to allow toast to display
+        }, 2500);
+      }  else {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to add services');
       }
     } catch (error) {
       console.error('Error adding services:', error.message);
-      alert('Error adding services: ' + error.message);
+      toast.error('Error adding services: ' + error.message);
     }
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-8 bg-white shadow-lg rounded-lg">
-      <header className="text-center mb-6 p-6 bg-gradient-to-r from-teal-400 to-teal-500 rounded-t-lg">
+    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mr-20">
+      <header className="text-center mb-6 p-6 bg-teal-500 rounded-t-lg ">
         <h1 className="text-3xl font-bold text-white">Unleash Your Potential—List Your Services Here</h1>
       </header>
 
@@ -200,6 +203,7 @@ const AddServices = () => {
           </button>
         </div>
       </form>
+      <ToastContainer autoClose={2000} /> {/* Auto close after 5 seconds */}
     </div>
   );
 };

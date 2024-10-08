@@ -1,0 +1,9 @@
+ATLAS_URI=mongodb+srv://shravanistudy02:o62RJY2oj1wpzU8x@cluster0.kqy4d.mongodb.net/salon?retryWrites=true&w=majority&appName=Cluster0
+PORT=5050
+
+# JWT_TOKEN
+JWT_SECRET=SAASPROJECT
+
+# reCaptcha
+SITE_KEY=6LfZsSgqAAAAADILAqP30cd6uPX9lZezvJIVdeQp
+SECRET_KEY=6LfZsSgqAAAAACNplkR2nUrChLiO_HeoAHUPhrp_ 

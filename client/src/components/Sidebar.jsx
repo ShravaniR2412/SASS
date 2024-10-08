@@ -2,14 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarToday, Person, AddShoppingCart, Build, Category, Report, Settings, ShoppingCart, Dashboard } from '@mui/icons-material'; // Import icons
 
-
 const Sidebar = ({ sections }) => {
   return (
-    <div className="w-64 h-screen bg-teal-600 text-white flex flex-col">
-      <div className="p-4 text-xl font-semibold bg-teal-600">
+    <div className="w-64 h-screen bg-teal-600 text-white flex flex-col fixed p-4"> {/* Added fixed positioning and padding */}
+      <div className="text-xl font-semibold">
         <h2 className="text-white">Salon Dashboard</h2>
       </div>
-      <div className="flex-1 overflow-y-auto p-3">
+      <div className="flex-1 overflow-y-auto max-h-[calc(100vh-100px)]"> {/* Kept max-height */}
         <ul className="space-y-1">
           {sections.map((section, index) => (
             <li key={index} className="group">
