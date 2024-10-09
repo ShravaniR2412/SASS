@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Use for navigation
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Container, Box, Zoom, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Typography, Container, Box, Zoom, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { motion } from 'framer-motion';
 import AddIcon from "@mui/icons-material/Add";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AdminProduct() {
   const [products, setProducts] = useState([]);
   const [licenseNumber, setLicenseNumber] = useState('');
-  const navigate = useNavigate(); // Initialize navigation
+  const [open, setOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedLicenseNumber = localStorage.getItem('licenseNumber');
     setLicenseNumber(storedLicenseNumber || '');
 
-    // Fetch products from the server
     const fetchProducts = async () => {
       try {
         const response = await fetch('http://localhost:5050/api/products/getproducts', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'x-auth-token': localStorage.getItem('authToken'), // Include the token if needed
+            'x-auth-token': localStorage.getItem('authToken'),
           },
-          body: JSON.stringify({ licenseNumber: storedLicenseNumber }), // Send license number in body
+          body: JSON.stringify({ licenseNumber: storedLicenseNumber }),
         });
 
         if (response.ok) {
@@ -41,48 +44,58 @@ export default function AdminProduct() {
     fetchProducts();
   }, []);
 
-  const handleDelete = async (productId) => {
+  const handleDeleteClick = (productId) => {
+    setProductToDelete(productId);
+    setOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!productToDelete) return;
+
     try {
-      const response = await fetch(`http://localhost:5050/api/products/${productId}`, {
+      const response = await fetch(`http://localhost:5050/api/products/${productToDelete}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'x-auth-token': localStorage.getItem('authToken'), // Include the token if needed
+          'x-auth-token': localStorage.getItem('authToken'),
         },
       });
-  
-      // Check for successful response
+
       if (response.ok) {
-        setProducts(products.filter((product) => product._id !== productId));
-        alert('Product deleted successfully');
+        setProducts(products.filter((product) => product._id !== productToDelete));
+        toast.success('Product deleted successfully');
       } else {
         const responseText = await response.text();
         console.error('Failed to delete product:', responseText);
+        toast.error(`Failed to delete product: ${responseText}`, { style: { backgroundColor: 'red' } });
       }
     } catch (error) {
       console.error('Error deleting product:', error.message);
+      toast.error('Error deleting product. Please try again.', { style: { backgroundColor: 'red' } });
+    } finally {
+      setOpen(false);
+      setProductToDelete(null);
     }
   };
 
   const handleUpdate = (product) => {
-    navigate(`update/${product._id}`); // Navigate to the update form with product ID
+    navigate(`update/${product._id}`);
   };
 
   const buttonStyle = {
-    background: 'linear-gradient(90deg, #008080, #00b3b3)', // Initial gradient
+    background: 'linear-gradient(90deg, #008080, #00b3b3)',
     color: 'white',
-    transition: 'background 0.5s ease', // Smooth transition for background
-    backgroundSize: '200% 100%', // Allows the gradient to move
-  };
-  
-  const hoverStyle = {
-    backgroundPosition: 'right center', // Moves the gradient on hover
+    transition: 'background 0.5s ease',
+    backgroundSize: '200% 100%',
   };
 
+  const hoverStyle = {
+    backgroundPosition: 'right center',
+  };
 
   return (
-   <Container maxWidth="md" sx={{ mt: 3 ,ml:40 }}>
-      <Typography style={{ fontfamily: "Poppins" }} variant="h4" component="h2" align="center" gutterBottom color="teal">
+    <Container maxWidth="md" sx={{ mt: 3, ml: 40 }}>
+      <Typography style={{ fontFamily: "Poppins" }} variant="h4" component="h2" align="center" gutterBottom color="teal">
         Product List
       </Typography>
 
@@ -105,29 +118,20 @@ export default function AdminProduct() {
                   <TableCell>{product.price}</TableCell>
                   <TableCell>
                     <Box display="flex" justifyContent="space-between">
-                      {/* Update Icon */}
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <IconButton 
+                      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                        <IconButton
                           aria-label="edit"
-                          sx={{ color: 'teal' }} 
+                          sx={{ color: 'teal' }}
                           onClick={() => handleUpdate(product)}
                         >
                           <EditIcon />
                         </IconButton>
                       </motion.div>
-
-                      {/* Delete Icon */}
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
+                      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                         <IconButton
                           aria-label="delete"
                           sx={{ color: "error.main" }}
-                          onClick={() => handleDelete(product._id)}
+                          onClick={() => handleDeleteClick(product._id)}
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -141,21 +145,48 @@ export default function AdminProduct() {
         </Table>
       </TableContainer>
       <motion.div whileHover={{ ...hoverStyle }}>
-      <Button
-        variant="contained"
-        sx={{
-          ...buttonStyle,
-          marginTop: 2,
-          '&:hover': {
-            backgroundPosition: 'left center', // Change position on hover
-          }
-        }}
-        startIcon={<AddIcon />}
-        onClick={() => navigate("/admin/addproducts")}
-      >
-        Add New Products
-      </Button>
+        <Button
+          variant="contained"
+          sx={{
+            ...buttonStyle,
+            marginTop: 2,
+            '&:hover': {
+              backgroundPosition: 'left center',
+            }
+          }}
+          startIcon={<AddIcon />}
+          onClick={() => navigate("/admin/addproducts")}
+        >
+          Add New Products
+        </Button>
       </motion.div>
+      <ToastContainer autoClose={2000} />
+
+      {/* Confirmation Dialog */}
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this product?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            onClick={() => setOpen(false)} 
+            color="primary" 
+            sx={{ '&:hover': { backgroundColor: '#f0f0f0' } }} // Light grey on hover
+          >
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleDelete} 
+            color="error" 
+            sx={{ '&:hover': { backgroundColor: '#f0f0f0' } }} // Light grey on hover
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }

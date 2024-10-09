@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify'; // Import toast for notifications
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast notifications
 
 export default function EditPackage() {
   const { id } = useParams(); // Get the package ID from the URL
@@ -27,9 +29,11 @@ export default function EditPackage() {
           setPackageData(data);
         } else {
           console.error('Failed to fetch package details');
+          toast.error('Failed to fetch package details'); // Notify user
         }
       } catch (error) {
         console.error('Error fetching package:', error.message);
+        toast.error('Error fetching package details'); // Notify user
       }
     };
 
@@ -54,19 +58,22 @@ export default function EditPackage() {
       });
 
       if (response.ok) {
-        alert('Package updated successfully');
-        navigate('/admin/packages'); // Navigate back to the package list
+        toast.success("Package updated successfully!");
+        // Wait for toast to finish before navigating
+        setTimeout(() => navigate('/admin/packages'), 2500);
       } else {
         const responseText = await response.text();
         console.error('Failed to update package:', responseText);
+        toast.error(`Failed to update package: ${responseText}`); // Notify user
       }
     } catch (error) {
       console.error('Error updating package:', error.message);
+      toast.error('Error updating package. Please try again.'); // Notify user
     }
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto mr-20">
       <h2 className="text-2xl font-semibold mb-6 text-center">Edit Package</h2>
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md">
         <div className="mb-4">
@@ -104,6 +111,7 @@ export default function EditPackage() {
             value={packageData.price}
             onChange={handleChange}
             required
+            min="0" // Ensure price is non-negative
             className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
@@ -156,6 +164,7 @@ export default function EditPackage() {
           </button>
         </div>
       </form>
+      <ToastContainer autoClose={2000} />
     </div>
   );
 }
