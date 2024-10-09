@@ -19,6 +19,9 @@ const CustomerAppointmentBooking = () => {
   const storedLicenseNumber = localStorage.getItem('licenseNumber');
   const availableTimeSlots = ['10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM'];
 
+  const [fetchError, setFetchError] = useState(null);
+
+  // Modify fetch functions to set errors
   const fetchPackages = async () => {
     try {
       const response = await fetch('http://localhost:5050/api/packages/getpackages', {
@@ -29,19 +32,19 @@ const CustomerAppointmentBooking = () => {
         },
         body: JSON.stringify({ licenseNumber: storedLicenseNumber }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         setPackages(data.data || []);
       } else {
         const errorMessage = await response.text();
-        console.error('Failed to fetch packages:', errorMessage);
+        setFetchError(`Failed to fetch packages: ${errorMessage}`);
       }
     } catch (error) {
-      console.error('Error fetching packages:', error.message);
+      setFetchError(`Error fetching packages: ${error.message}`);
     }
   };
-
+  
   const fetchServices = async () => {
     try {
       const response = await fetch('http://localhost:5050/api/services/getservices', {
@@ -52,18 +55,19 @@ const CustomerAppointmentBooking = () => {
         },
         body: JSON.stringify({ licenseNumber: storedLicenseNumber }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         setServices(data.data || []);
       } else {
         const errorMessage = await response.text();
-        console.error('Failed to fetch services:', errorMessage);
+        setFetchError(`Failed to fetch services: ${errorMessage}`);
       }
     } catch (error) {
-      console.error('Error fetching services:', error.message);
+      setFetchError(`Error fetching services: ${error.message}`);
     }
   };
+  
 
   useEffect(() => {
     fetchPackages();
@@ -89,47 +93,51 @@ const CustomerAppointmentBooking = () => {
     }
     return formErrors;
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formErrors = validate();
+    
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
-  
+    
     setErrors({}); // Clear previous errors
+    
     try {
       const appointmentData = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        service: formData.service,
-        package: formData.package,
+        services: formData.service ? [formData.service] : [],
+        packages: formData.package ? [formData.package] : [],
         date: formData.date,
         time: formData.time,
         licenseNumber: storedLicenseNumber,
       };
-  
-      console.log('Submitting appointment data:', appointmentData); // Log the data being sent
-  
+      
+      console.log('Submitting appointment data:', appointmentData);  // Add this log to inspect data
+      
       const response = await fetch('http://localhost:5050/api/appointments/createappointments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-auth-token': localStorage.getItem('authToken'),
         },
-        body: JSON.stringify({appointments: appointmentData}),
+        body: JSON.stringify(appointmentData),
       });
-  
+      
       if (!response.ok) {
         const errorMessage = await response.text();
         throw new Error(`Failed to book appointment: ${errorMessage}`);
       }
-  
+    
       const result = await response.json();
       setSuccessMessage('Appointment booked successfully!');
-      // Reset form after success
+    
+      // Only reset form fields (not services or packages, since they are fetched from the backend)
       setFormData({
         name: '',
         email: '',
@@ -139,11 +147,15 @@ const CustomerAppointmentBooking = () => {
         date: '',
         time: '',
       });
+    
     } catch (error) {
       console.error('Error:', error.message);
       setErrors({ submit: error.message });
     }
   };
+  
+  
+  
   
 
   return (

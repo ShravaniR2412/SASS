@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'; // ES Module import
+
 
 const appointmentSchema = new mongoose.Schema({
   name: {
@@ -13,12 +14,12 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  service: {
-    type: String,
+  services: { // Should be plural `services`, not `service`
+    type: [String],
     required: true,
   },
-  package: {
-    type: String, // Keep it optional
+  packages: { 
+    type: [String],
   },
   date: {
     type: Date,
