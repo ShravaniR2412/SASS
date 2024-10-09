@@ -58,7 +58,7 @@ function Login() {
 
           // Navigate after a delay to allow toast to display
           setTimeout(() => {
-            navigate('/dashboard');
+            navigate('/admin/profile');
           }, 2000);
         } else {
           // Show error toast for unsuccessful login
