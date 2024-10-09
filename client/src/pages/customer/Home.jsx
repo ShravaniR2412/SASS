@@ -140,7 +140,7 @@ const Home = () => {
               borderRadius: '8px', 
               '&:hover': { backgroundColor: '#0A6D6D' } 
             }} 
-            onClick={() => window.location.href='home/products'}
+            onClick={() => window.location.href='/products'}
           >
             Explore More
           </Button>
@@ -205,7 +205,7 @@ const Home = () => {
               borderRadius: '8px', 
               '&:hover': { backgroundColor: '#0A6D6D' } 
             }} 
-            onClick={() => window.location.href='home/services'}          >
+            onClick={() => window.location.href='/services'}          >
             Explore More
           </Button>
         </Box>
@@ -268,7 +268,7 @@ const Home = () => {
               borderRadius: '8px', 
               '&:hover': { backgroundColor: '#0A6D6D' } 
             }} 
-            onClick={() => window.location.href='home/packages'}
+            onClick={() => window.location.href='/packages'}
           >
             Explore More
           </Button>

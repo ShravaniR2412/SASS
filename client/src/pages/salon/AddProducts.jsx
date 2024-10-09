@@ -65,9 +65,8 @@ export default function AddProduct() {
         navigate('/login');
       } else  if (response.ok) {
         toast.success("Products Added Successfully!"); // Show toast notification
-        
         setTimeout(() => {
-          navigate('/dashboard'); // Navigate after a delay to allow toast to display
+          navigate('/admin/products'); // Navigate after a delay to allow toast to display
         }, 2500);
       } else {
         const errorData = await response.json();

@@ -65,7 +65,7 @@ const AddServices = () => {
         toast.success("Services Added Successfully!"); // Show toast notification
         
         setTimeout(() => {
-          navigate('/dashboard'); // Navigate after a delay to allow toast to display
+          navigate('/admin/services'); // Navigate after a delay to allow toast to display
         }, 2500);
       }  else {
         const errorData = await response.json();

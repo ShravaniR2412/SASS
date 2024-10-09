@@ -39,11 +39,11 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // Public routes (no auth required)
 app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes); 
+app.use('/api/services', serviceRoutes); 
+app.use('/api/packages', packageRoutes); 
 
 // Protected routes (authentication required)
-app.use('/api/products', auth, productRoutes); 
-app.use('/api/services', auth, serviceRoutes); 
-app.use('/api/packages', auth, packageRoutes); 
 app.use('/api/appointments', auth, appointmentRoutes); // Add appointment routes
 
 // 404 Handler for unsupported routes

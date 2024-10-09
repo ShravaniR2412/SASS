@@ -50,7 +50,7 @@ const Navbar = () => {
         <Toolbar>
           {/* Logo and Brand Name */}
           <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <Link to="/home" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
               <img 
                 src={logo} 
                 alt="GlamEase Logo" 
@@ -74,7 +74,7 @@ const Navbar = () => {
           {!isMobile ? (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Link
-                to="/home/services"
+                to="/services"
                 style={linkStyle}
                 onMouseOver={linkHoverStyle}
                 onMouseOut={linkOutStyle}
@@ -82,7 +82,7 @@ const Navbar = () => {
                 Services
               </Link>
               <Link
-                to="/home/packages"
+                to="/packages"
                 style={linkStyle}
                 onMouseOver={linkHoverStyle}
                 onMouseOut={linkOutStyle}
@@ -90,7 +90,7 @@ const Navbar = () => {
                 Packages
               </Link>
               <Link
-                to="/home/products"
+                to="/products"
                 style={linkStyle}
                 onMouseOver={linkHoverStyle}
                 onMouseOut={linkOutStyle}
@@ -115,13 +115,13 @@ const Navbar = () => {
       {/* Drawer for Mobile */}
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
         <List>
-          <ListItem button component={Link} to="/home/services" onClick={toggleDrawer}>
+          <ListItem button component={Link} to="/services" onClick={toggleDrawer}>
             <ListItemText primary="Services" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
-          <ListItem button component={Link} to="/home/packages" onClick={toggleDrawer}>
+          <ListItem button component={Link} to="/packages" onClick={toggleDrawer}>
             <ListItemText primary="Packages" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
-          <ListItem button component={Link} to="/home/products" onClick={toggleDrawer}>
+          <ListItem button component={Link} to="/products" onClick={toggleDrawer}>
             <ListItemText primary="Products" sx={{ fontFamily: 'Poppins, sans-serif' }} />
           </ListItem>
         </List>
