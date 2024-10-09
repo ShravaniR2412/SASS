@@ -20,6 +20,9 @@ import Home from './pages/customer/Home';
 import Cproduct from './pages/customer/Cproduct';
 import Cpackage from './pages/customer/Cpackage';
 import Cservices from './pages/customer/Cservices';
+import Cdashboard from './pages/customer/Cdashboar';
+import OrderHistory from './components/Orderhistory';
+
 
 
 function App() {
@@ -35,6 +38,8 @@ function App() {
         <Route path="/products" element={<Cproduct/>} />
         <Route path="/packages" element={<Cpackage/>} />
         <Route path="/services" element={<Cservices/>} />
+        <Route path="/customerdashboard" element={<Cdashboard/>} />
+        <Route path="/order-history" element={<OrderHistory/>} />
 
 
 

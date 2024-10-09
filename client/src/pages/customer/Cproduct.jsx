@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Footer from '../../components/Footer'; // Import the Footer component
 import Navbar from '../../components/Navbar'; // Import the Navbar component
-import ProductCard from '../../components/ProductCard';
+import ProductCard from '../../components/Productcard';
 
 function Cproduct() {
   const [products, setProducts] = useState([]);

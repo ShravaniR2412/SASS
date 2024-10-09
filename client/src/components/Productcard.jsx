@@ -1,16 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; // Import the cart icon
 
 const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, category }) => {
   return (
     <motion.div  
-    className="flex flex-col overflow-hidden rounded-lg border bg-white transition-shadow duration-300 shadow-lg "
-    initial={{ opacity: 0, y: 20 }}  // Fade in and slide up when entering
+      className="flex flex-col overflow-hidden rounded-lg border bg-white transition-shadow duration-300 shadow-lg"
+      initial={{ opacity: 0, y: 20 }}  // Fade in and slide up when entering
       animate={{ opacity: 1, y: 0 }} 
       transition={{ duration: 0.5, ease: 'easeOut' }}  // Animation timing
     >
       <a href="#" className="group relative block h-48 overflow-hidden bg-gray-100 md:h-64">
-      <motion.img
+        <motion.img
           src={imageSrc}
           alt={imageAlt}
           className="absolute inset-0 h-full w-full object-cover object-center"
@@ -35,23 +36,44 @@ const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, cate
         <div className="mt-auto flex items-end justify-between">
           <div className="flex items-center gap-2">
             <div>
-              <span className="block text-teal-600">{price}</span>
+              <span className="block text-teal-600 text-lg font-semibold">{price}</span>
             </div>
           </div>
 
-          <motion.span
-            className="rounded border px-2 py-1 text-sm text-gray-500 cursor-pointer"
-            whileHover={{
-              backgroundColor: '#38b2ac', // Change to teal
-              color: '#fff', // White text on hover
-              transition: { duration: 0.3 },
-            }}
-          >
-            Buy Now
-          </motion.span>  {/* Framer Motion hover effect on button */}
+          <div className="flex items-center gap-2"> {/* Added gap for spacing between buttons */}
+            
+            {/* Buy Now Button */}
+            <motion.span
+              className="rounded border px-4 py-2 text-sm text-gray-500 cursor-pointer"
+              whileHover={{
+                backgroundColor: '#38b2ac', // Change to teal
+                color: '#fff', // White text on hover
+                transition: { duration: 0.3 },
+              }}
+              onClick={() => console.log('Buy now clicked')} // You can replace this with your buy functionality
+            >
+              Buy Now
+            </motion.span>
+            
+            {/* Add to Cart Button */}
+
+            <motion.span
+              className="flex items-center  text-sm text-gray-400 cursor-pointer"
+              whileHover={{
+                
+                color: '#09A3A3', // White text on hover
+                transition: { duration: 0.3 },
+              }}
+              onClick={() => console.log('Added to cart')} // You can replace this with your cart functionality
+            >
+              <ShoppingCartIcon sx={{ marginRight: '1px' }} /> {/* Add to Cart Icon */}
+            
+            </motion.span>  
+
+          </div>
         </div>
       </div>
-      </motion.div>
+    </motion.div>
   );
 };
 
