@@ -22,6 +22,9 @@ import Cpackage from './pages/customer/Cpackage';
 import Cservices from './pages/customer/Cservices';
 import Cdashboard from './pages/customer/Cdashboar';
 import OrderHistory from './components/Orderhistory';
+import PaymentHistory from './components/Paymenthistory';
+import { Settings } from '@mui/icons-material';
+import Cprofile from './components/Cprofile';
 
 
 
@@ -40,6 +43,9 @@ function App() {
         <Route path="/services" element={<Cservices/>} />
         <Route path="/customerdashboard" element={<Cdashboard/>} />
         <Route path="/order-history" element={<OrderHistory/>} />
+        <Route path="/payment" element={<PaymentHistory/>} />
+        <Route path="/cprofile" element={<Cprofile/>} />
+
 
 
 

@@ -25,7 +25,7 @@ const Csidebar = () => {
         </li>
         <li className="mb-4">
           <NavLink
-            to="/"
+            to="/cprofile"
             className="flex items-center space-x-3 hover:bg-teal-400 p-2 rounded"
             activeClassName="bg-gray-200"
           >
