@@ -82,7 +82,7 @@ export default function AddProduct() {
     <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mr-20">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
         <header className="text-center mb-4 p-4 bg-teal-500 rounded-t-lg">
-          <h1 className="text-2xl font-semibold text-white">Add Multiple Products</h1>
+          <h1 className="text-2xl font-semibold text-white">Add Products</h1>
         </header>
 
         <form onSubmit={handleSubmit} className="space-y-4">
