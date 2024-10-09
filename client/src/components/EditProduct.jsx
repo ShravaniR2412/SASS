@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify'; // Make sure to import toast
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for toast notifications
 
 export default function EditProduct() {
-  const { id } = useParams(); // Get the product ID from the URL
+  const { id } = useParams();
   const [product, setProduct] = useState({
     productName: '',
     description: '',
@@ -17,7 +19,7 @@ export default function EditProduct() {
       try {
         const response = await fetch(`http://localhost:5050/api/products/${id}`, {
           headers: {
-            'x-auth-token': localStorage.getItem('authToken'), // Include the token if needed
+            'x-auth-token': localStorage.getItem('authToken'),
           },
         });
 
@@ -26,9 +28,11 @@ export default function EditProduct() {
           setProduct(data);
         } else {
           console.error('Failed to fetch product details');
+          toast.error('Failed to fetch product details'); // Notify user
         }
       } catch (error) {
         console.error('Error fetching product:', error.message);
+        toast.error('Error fetching product details'); // Notify user
       }
     };
 
@@ -47,25 +51,37 @@ export default function EditProduct() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'x-auth-token': localStorage.getItem('authToken'), // Include the token if needed
+          'x-auth-token': localStorage.getItem('authToken'),
         },
         body: JSON.stringify(product),
       });
 
       if (response.ok) {
-        alert('Product updated successfully');
-        navigate('/admin/products'); // Navigate back to the product list
+        toast.success("Product updated successfully!");
+
+
+        
+
+        setTimeout(() => {
+          navigate('/admin/products'); // Navigate after a delay to allow toast to display
+        }, 2500);
+
+
+
+
       } else {
         const responseText = await response.text();
         console.error('Failed to update product:', responseText);
+        toast.error(`Failed to update product: ${responseText}`); // Notify user
       }
     } catch (error) {
       console.error('Error updating product:', error.message);
+      toast.error('Error updating product. Please try again.'); // Notify user
     }
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto mr-20">
       <h2 className="text-2xl font-semibold mb-6 text-center">Edit Product</h2>
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md">
         <div className="mb-4">
@@ -140,6 +156,7 @@ export default function EditProduct() {
           </button>
         </div>
       </form>
+      <ToastContainer autoClose={2000} />
     </div>
   );
 }
