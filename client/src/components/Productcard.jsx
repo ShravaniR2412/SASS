@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; // Import the cart icon
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, category }) => {
   return (
@@ -52,7 +53,10 @@ const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, cate
               }}
               onClick={() => console.log('Buy now clicked')} // You can replace this with your buy functionality
             >
+               <Link
+            to='/booking'>
               Buy Now
+              </Link>
             </motion.span>
             
             {/* Add to Cart Button */}

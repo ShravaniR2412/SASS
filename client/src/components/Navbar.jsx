@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Box, useMediaQuery, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import { Person, Menu } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography, IconButton, Box, useMediaQuery, Drawer, List, ListItem, ListItemText, Menu, MenuItem } from '@mui/material';
+import { Person, Menu as MenuIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
 
 // Import Google Fonts
 import '@fontsource/dancing-script'; // Cursive font
 import '@fontsource/poppins'; // Simple modern font
 
 // Import the logo image
-import logo from '../../src/assets/logo1.png'; // Make sure the path to logo.png is correct
+import logo from '../../src/assets/logo1.png'; 
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const isMobile = useMediaQuery('(max-width:600px)'); // Media query for mobile screens
+  const isMobile = useMediaQuery('(max-width:600px)'); 
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const linkStyle = {
     textDecoration: 'none',
@@ -36,6 +38,14 @@ const Navbar = () => {
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -98,15 +108,52 @@ const Navbar = () => {
                 Products
               </Link>
 
-              {/* Profile Icon */}
-              <IconButton sx={{ color: 'white' }}>
-                <Person />
+              <Link
+                to="/booking"
+                style={linkStyle}
+                onMouseOver={linkHoverStyle}
+                onMouseOut={linkOutStyle}
+              >
+                Appointment
+              </Link>
+
+              {/* Profile Icon with Dropdown */}
+              <IconButton
+                sx={{ color: 'white' }}
+                onClick={handleClick} // Opens the dropdown
+              >
+                <PersonIcon />
               </IconButton>
+
+              {/* Dropdown Menu for Profile Icon */}
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)} // Boolean check to open the menu
+                onClose={handleClose} // Close the menu when clicked outside
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                {/* Dropdown Option: Customer Dashboard */}
+                <MenuItem onClick={handleClose}>
+                  <Link to="/customerdashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Customer
+                  </Link>
+                </MenuItem>
+
+                {/* Dropdown Option: Salon Dashboard */}
+                <MenuItem onClick={handleClose}>
+                  <Link to="/login
+                  " style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Salon
+                  </Link>
+                </MenuItem>
+              </Menu>
             </Box>
           ) : (
             // Hamburger Menu for Mobile
             <IconButton edge="end" onClick={toggleDrawer} sx={{ color: 'white' }}>
-              <Menu />
+              <MenuIcon />
             </IconButton>
           )}
         </Toolbar>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const ServiceCard = ({ imageSrc, imageAlt, serviceName, description, price, duration }) => {
   return (
@@ -47,7 +48,10 @@ const ServiceCard = ({ imageSrc, imageAlt, serviceName, description, price, dura
               transition: { duration: 0.3 },
             }}
           >
+             <Link
+            to='/booking'>
             Book Now
+            </Link>
           </motion.span>  {/* Framer Motion hover effect on button */}
         </div>
       </div>

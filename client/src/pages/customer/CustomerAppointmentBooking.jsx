@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaUser, FaEnvelope, FaPhone, FaCalendarAlt, FaClock, FaCut, FaBox } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify'; // Import toast for notifications
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast noti
 
 const CustomerAppointmentBooking = () => {
   const [formData, setFormData] = useState({
@@ -135,7 +137,7 @@ const CustomerAppointmentBooking = () => {
       }
     
       const result = await response.json();
-      setSuccessMessage('Appointment booked successfully!');
+      toast.success('Appointment booked successfully!');
     
       // Only reset form fields (not services or packages, since they are fetched from the backend)
       setFormData({
@@ -150,6 +152,7 @@ const CustomerAppointmentBooking = () => {
     
     } catch (error) {
       console.error('Error:', error.message);
+      toast.error('Error booking appointment');
       setErrors({ submit: error.message });
     }
   };
@@ -291,6 +294,7 @@ const CustomerAppointmentBooking = () => {
           Book Appointment
         </button>
       </form>
+      <ToastContainer autoClose={2000} />
     </div>
   );
 };

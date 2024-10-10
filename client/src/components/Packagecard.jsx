@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const PackageCard = ({ imageSrc, imageAlt, packageName, outlets, description, price, duration, services }) => {
   return (
@@ -55,7 +56,10 @@ const PackageCard = ({ imageSrc, imageAlt, packageName, outlets, description, pr
               transition: { duration: 0.3 },
             }}
           >
+            <Link
+            to='/booking'>
             Buy Now
+            </Link>
           </motion.span>  {/* Framer Motion hover effect on button */}
         </div>
       </div>
