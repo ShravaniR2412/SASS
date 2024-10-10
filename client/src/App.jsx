@@ -25,6 +25,7 @@ import OrderHistory from './components/Orderhistory';
 import PaymentHistory from './components/Paymenthistory';
 import { Settings } from '@mui/icons-material';
 import Cprofile from './components/Cprofile';
+import AdminReport from './components/AdminReport';
 
 
 
@@ -61,6 +62,7 @@ function App() {
           <Route path="addservices" element={<AddServices />} />
           <Route path="addpackages" element={<AddPackages />} />
           <Route path="addproducts" element={<AddProducts />} />
+          <Route path="reports" element={<AdminReport />} />
           <Route path="services/update/:id" element={<UpdateService />} />
           <Route path="products/update/:id" element={<EditProduct />} />
           <Route path="packages/update/:id" element={<EditPackage />} />
