@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; // Import the cart icon
 import { Link } from 'react-router-dom';
 
-const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, category }) => {
+const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, category, salonName }) => {
   return (
     <motion.div  
       className="flex flex-col overflow-hidden rounded-lg border bg-white transition-shadow duration-300 shadow-lg"
@@ -30,8 +30,13 @@ const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, cate
           <span className="block text-xs text-black">{category}</span> {/* Added category field */}
         </h2>
 
-        <p className="mb-8 text-gray-500">
+        <p className="mb-1 text-gray-500">
           {description}
+        </p>
+
+        {/* Added salonName display */}
+        <p className="block text-black text-lg font-semibold">
+          Salon: {salonName}
         </p>
 
         <div className="mt-auto flex items-end justify-between">
@@ -53,27 +58,20 @@ const ProductCard = ({ imageSrc, imageAlt, serviceName, description, price, cate
               }}
               onClick={() => console.log('Buy now clicked')} // You can replace this with your buy functionality
             >
-               <Link
-            to='/booking'>
-              Buy Now
-              </Link>
+              <Link to='/booking'>Buy Now</Link>
             </motion.span>
             
             {/* Add to Cart Button */}
-
             <motion.span
-              className="flex items-center  text-sm text-gray-400 cursor-pointer"
+              className="flex items-center text-sm text-gray-400 cursor-pointer"
               whileHover={{
-                
-                color: '#09A3A3', // White text on hover
+                color: '#09A3A3', // Change to teal color on hover
                 transition: { duration: 0.3 },
               }}
               onClick={() => console.log('Added to cart')} // You can replace this with your cart functionality
             >
               <ShoppingCartIcon sx={{ marginRight: '1px' }} /> {/* Add to Cart Icon */}
-            
             </motion.span>  
-
           </div>
         </div>
       </div>

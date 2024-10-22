@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Footer from '../../components/Footer'; // Import the Footer component
-import Navbar from '../../components/Navbar'; // Import the Navbar component
-import ProductCard from '../../components/Productcard';
+import Footer from '../../components/Footer';
+import Navbar from '../../components/Navbar';
+import ProductCard from '../../components/ProductCard'; // Ensure the filename matches case-sensitivity
 
 function Cproduct() {
   const [products, setProducts] = useState([]);
-  const [selectedOutlet, setSelectedOutlet] = useState('All');
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedSalonName, setSelectedSalonName] = useState('All');
 
   // Fetch products from the API
   const fetchProducts = async () => {
@@ -17,13 +17,13 @@ function Cproduct() {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'x-auth-token': localStorage.getItem('authToken'), // Include the token if needed
+          'x-auth-token': localStorage.getItem('authToken'), // Ensure token is valid
         },
       });
-  
+
       if (response.ok) {
         const data = await response.json();
-        setProducts(data); // Set the fetched products in state
+        setProducts(data); // Assuming data contains the product array
       } else {
         console.error('Failed to fetch products');
       }
@@ -31,17 +31,15 @@ function Cproduct() {
       console.error('Error fetching products:', error.message);
     }
   };
-  
 
-  // Fetch products when the component mounts
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  // Filter products based on the selected outlet, price range, and category
-  const filteredProducts = products.filter(product => {
-    const outletMatch = selectedOutlet === 'All' || product.outlets === selectedOutlet;
+  // Filter products based on the selected price range, category, and salon name
+  const filteredProducts = products.filter((product) => {
     const categoryMatch = selectedCategory === 'All' || product.category === selectedCategory;
+    const salonMatch = selectedSalonName === 'All' || product.salonName === selectedSalonName;
     let priceMatch = true;
 
     if (selectedPriceRange === 'Below ₹500') {
@@ -52,8 +50,11 @@ function Cproduct() {
       priceMatch = product.price > 1000;
     }
 
-    return outletMatch && categoryMatch && priceMatch;
+    return categoryMatch && salonMatch && priceMatch;
   });
+
+  // Extract unique salon names for filtering
+  const salonNames = ['All', ...new Set(products.map((product) => product.salonName))];
 
   return (
     <>
@@ -82,7 +83,9 @@ function Cproduct() {
             className="mb-8 flex gap-8 border-b border-gray-300 pb-4"
           >
             <div className="flex gap-2 items-center">
-              <label className="text-gray-700 font-semibold" htmlFor="price-range-select">Filter by Price Range:</label>
+              <label className="text-gray-700 font-semibold" htmlFor="price-range-select">
+                Filter by Price Range:
+              </label>
               <select
                 id="price-range-select"
                 value={selectedPriceRange}
@@ -98,7 +101,9 @@ function Cproduct() {
             </div>
 
             <div className="flex gap-2 items-center">
-              <label className="text-gray-700 font-semibold" htmlFor="category-select">Filter by Category:</label>
+              <label className="text-gray-700 font-semibold" htmlFor="category-select">
+                Filter by Category:
+              </label>
               <select
                 id="category-select"
                 value={selectedCategory}
@@ -112,8 +117,27 @@ function Cproduct() {
                 ))}
               </select>
             </div>
+
+            <div className="flex gap-2 items-center">
+              <label className="text-gray-700 font-semibold" htmlFor="salon-select">
+                Filter by Salon:
+              </label>
+              <select
+                id="salon-select"
+                value={selectedSalonName}
+                onChange={(e) => setSelectedSalonName(e.target.value)}
+                className="p-2 border rounded shadow-sm hover:border-teal-500 transition duration-200"
+              >
+                {salonNames.map((salonName, index) => (
+                  <option key={index} value={salonName}>
+                    {salonName}
+                  </option>
+                ))}
+              </select>
+            </div>
           </motion.div>
 
+          {/* Products Grid */}
           <div className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4 xl:grid-cols-4 xl:gap-8">
             {filteredProducts.map((product, index) => (
               <ProductCard
@@ -124,6 +148,8 @@ function Cproduct() {
                 description={product.description}
                 price={`₹${product.price}`}
                 category={product.category}
+                salonName={product.salonName} // Pass salonName to ProductCard
+                salonNameClass="text-teal-500 font-semibold" // Add a teal color class for the salon name
               />
             ))}
           </div>

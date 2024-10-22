@@ -5,7 +5,6 @@ export const createProduct = async (req, res) => {
   try {
     // Expecting an array of products in the request body
     const products = req.body.products;
-    // console.log(products)
 
     if (!products || products.length === 0) {
       return res.status(400).json({
@@ -18,10 +17,10 @@ export const createProduct = async (req, res) => {
 
     // Iterate over each product and save it to the database
     for (const product of products) {
-      const { productName, description, price, imageUrl ,licenseNumber,category} = product;
+      const { productName, description, price, imageUrl, licenseNumber, category, salonName } = product;
 
       // Ensure all required fields are present
-      if (!productName || !description || !price || !licenseNumber|| !imageUrl || !category) {
+      if (!productName || !description || !price || !licenseNumber || !imageUrl || !category || !salonName) {
         return res.status(400).json({ message: 'All fields are required for each product.' });
       }
 
@@ -32,7 +31,8 @@ export const createProduct = async (req, res) => {
         price,
         imageUrl,
         licenseNumber,
-        category
+        category,
+        salonName, // Include salonName
       });
 
       // Save the product to the database
@@ -53,7 +53,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-// Get all products(liscence number)
+// Get all products by license number
 export const getProducts = async (req, res) => {
   try {
     const { licenseNumber } = req.body; // Extract licenseNumber from request body
@@ -69,7 +69,7 @@ export const getProducts = async (req, res) => {
     console.error(error.message);
     res.status(500).json({
       message: 'Server error',
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -85,11 +85,10 @@ export const getAllProducts = async (req, res) => {
     console.error(error.message);
     res.status(500).json({
       message: 'Server error',
-      error: error.message
+      error: error.message,
     });
   }
 };
-
 
 // Get a single product by ID
 export const getProductById = async (req, res) => {
@@ -106,7 +105,7 @@ export const getProductById = async (req, res) => {
     console.error(error.message);
     res.status(500).json({
       message: 'Server error',
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -128,7 +127,6 @@ export const updateProduct = async (req, res) => {
       product: updatedProduct,
     });
   } catch (error) {
-    // console.error(error.message);
     res.status(500).json({
       message: 'Server error',
       error: error.message,
@@ -136,6 +134,7 @@ export const updateProduct = async (req, res) => {
   }
 };
 
+// Delete a product by ID
 export const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
@@ -147,13 +146,13 @@ export const deleteProduct = async (req, res) => {
 
     res.status(200).json({
       message: 'Product deleted successfully',
-      product: deletedProduct
+      product: deletedProduct,
     });
   } catch (error) {
     console.error(error.message);
     res.status(500).json({
       message: 'Server error',
-      error: error.message
+      error: error.message,
     });
   }
 };
