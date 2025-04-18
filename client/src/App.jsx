@@ -13,8 +13,8 @@ import AdminProduct from './components/AdminProduct';
 import AdminPackage from './components/AdminPackage';
 import AdminServices from './components/AdminServices';
 import UpdateService from './components/UpdateService';
-import EditProduct from './components/EditProduct'; // Import the new component
-import EditPackage from './components/EditPackage'; // Import the new component
+import EditProduct from './components/EditProduct';
+import EditPackage from './components/EditPackage';
 import CustomerAppointmentBooking from './pages/customer/CustomerAppointmentBooking';
 import Home from './pages/customer/Home';
 import Cproduct from './pages/customer/Cproduct';
@@ -26,8 +26,9 @@ import PaymentHistory from './components/Paymenthistory';
 import { Settings } from '@mui/icons-material';
 import Cprofile from './components/Cprofile';
 import AdminReport from './components/AdminReport';
+import GlamEaseRecommender from './pages/customer/ProductComparision'; // Import the new component
 
-
+import ProductDetail from './pages/customer/ProductDetail';
 
 function App() {
   return (
@@ -46,10 +47,9 @@ function App() {
         <Route path="/order-history" element={<OrderHistory/>} />
         <Route path="/payment" element={<PaymentHistory/>} />
         <Route path="/cprofile" element={<Cprofile/>} />
-
-
-
-
+        <Route path="/product-recommender" element={<GlamEaseRecommender />}/>
+        {/* New skincare recommender route */}
+        <Route path="/product/:productId" element={<ProductDetail />} />
         {/* Customer Booking Route */}
         <Route path="/booking" element={<CustomerAppointmentBooking />} /> {/* New booking route */}
         

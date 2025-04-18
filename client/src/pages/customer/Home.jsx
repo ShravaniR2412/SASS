@@ -10,6 +10,7 @@ import {
   Button,
   IconButton,
   CircularProgress,
+  Fab,
 } from '@mui/material';
 import Carousel from 'react-material-ui-carousel'; // Carousel library
 import Footer from '../../components/Footer'; // Import the Footer component
@@ -19,6 +20,7 @@ import carouselImage2 from '../../assets/carousel2.png';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import RecommendIcon from '@mui/icons-material/Recommend'; // Icon for recommender button
 
 const Home = () => {
   // State variables for products, services, packages, loading, and error
@@ -145,6 +147,55 @@ const Home = () => {
         <img src={carouselImage1} alt="Slide 3" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </Carousel>
 
+      {/* Product Recommender Button - Floating version */}
+      {/* Product Recommender Section - Alternative non-floating version */}
+<Box
+  sx={{
+    my: 4,
+    mx: 4,
+    padding: 3,
+    backgroundColor: '#F0F8F8', // Light teal background
+    borderRadius: '10px',
+    textAlign: 'center',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+  }}
+>
+  <Typography
+    variant="h5"
+    sx={{
+      color: '#0B7D7D',
+      fontWeight: 'bold',
+      mb: 2,
+    }}
+  >
+    Not sure what products are right for you?
+  </Typography>
+  <Typography variant="body1" sx={{ mb: 3 }}>
+    Try our personalized product recommender to find the perfect match for your beauty needs!
+  </Typography>
+  <Button
+    variant="contained"
+    size="large"
+    startIcon={<RecommendIcon />}
+    sx={{
+      backgroundColor: '#0B7D7D',
+      borderRadius: '8px',
+      px: 4,
+      py: 1.5,
+      fontSize: '1.1rem',
+      fontWeight: 'bold',
+      '&:hover': { 
+        backgroundColor: '#0A6D6D',
+        transform: 'scale(1.05)', 
+        boxShadow: '0 6px 12px rgba(0,0,0,0.2)' 
+      },
+      transition: 'all 0.3s ease',
+    }}
+    onClick={() => window.location.href = '/product-recommender'}
+  >
+    Find Your Perfect Products
+  </Button>
+</Box>
 
 {/* Products Section */}
 <Box sx={{ my: 4,mx: 4, padding: 2 }}>
