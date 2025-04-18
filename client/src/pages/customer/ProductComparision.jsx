@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Navbar from "../../components/Navbar"
 
 export default function GlamEaseRecommender() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function GlamEaseRecommender() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post('http://localhost:5000/api/recommendations', {
+      const response = await axios.post('http://localhost:8000/predict/skin-type', {
         productType,
         skinType,
         priceRange
@@ -79,6 +80,9 @@ export default function GlamEaseRecommender() {
   };
 
   return (
+
+    <>
+    <Navbar/>
     <div className="p-6 max-w-6xl mx-auto bg-white">
       {/* Cart Section */}
       {cart.length > 0 && (
@@ -251,5 +255,6 @@ export default function GlamEaseRecommender() {
         </div>
       )}
     </div>
+    </>
   );
 }

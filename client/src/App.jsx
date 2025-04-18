@@ -29,6 +29,7 @@ import AdminReport from './components/AdminReport';
 import GlamEaseRecommender from './pages/customer/ProductComparision'; // Import the new component
 
 import ProductDetail from './pages/customer/ProductDetail';
+import MBA from './pages/customer/MBA.JSX';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path="/payment" element={<PaymentHistory/>} />
         <Route path="/cprofile" element={<Cprofile/>} />
         <Route path="/product-recommender" element={<GlamEaseRecommender />}/>
+        <Route path="/mba" element={<MBA/>}/>
         {/* New skincare recommender route */}
         <Route path="/product/:productId" element={<ProductDetail />} />
         {/* Customer Booking Route */}
@@ -66,6 +68,7 @@ function App() {
           <Route path="services/update/:id" element={<UpdateService />} />
           <Route path="products/update/:id" element={<EditProduct />} />
           <Route path="packages/update/:id" element={<EditPackage />} />
+          
         </Route>
       </Routes>
     </Router>

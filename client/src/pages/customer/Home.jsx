@@ -197,6 +197,56 @@ const Home = () => {
   </Button>
 </Box>
 
+
+<Box
+  sx={{
+    my: 4,
+    mx: 4,
+    padding: 3,
+    backgroundColor: '#F0F8F8', // Light teal background
+    borderRadius: '10px',
+    textAlign: 'center',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+  }}
+>
+  <Typography
+    variant="h5"
+    sx={{
+      color: '#0B7D7D',
+      fontWeight: 'bold',
+      mb: 2,
+    }}
+  >
+    Explore What’s New!
+  </Typography>
+  <Typography variant="body1" sx={{ mb: 3 }}>
+  Trending Now: What Everyone’s Loving
+  </Typography>
+  <Button
+    variant="contained"
+    size="large"
+    startIcon={<RecommendIcon />}
+    sx={{
+      backgroundColor: '#0B7D7D',
+      borderRadius: '8px',
+      px: 4,
+      py: 1.5,
+      fontSize: '1.1rem',
+      fontWeight: 'bold',
+      '&:hover': { 
+        backgroundColor: '#0A6D6D',
+        transform: 'scale(1.05)', 
+        boxShadow: '0 6px 12px rgba(0,0,0,0.2)' 
+      },
+      transition: 'all 0.3s ease',
+    }}
+    onClick={() => window.location.href = '/mba'}
+  >
+    Search for more related items here
+  </Button>
+</Box>
+
+
 {/* Products Section */}
 <Box sx={{ my: 4,mx: 4, padding: 2 }}>
   <Typography
