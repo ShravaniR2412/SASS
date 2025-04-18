@@ -24,14 +24,24 @@ if 'text' not in recommendation_df.columns:
 recommendation_df['skintype'] = recommendation_df['skintype'].fillna('').astype(str)
 
 def recommend_products(product_type, skintype, max_price, top_n=10):
+    # First try to find exact matches
     base_df = recommendation_df[
         (recommendation_df['product_type'].str.lower() == product_type.lower()) &
         (recommendation_df['skintype'].str.lower().str.contains(skintype.lower()))
     ]
 
+    # If no exact matches, try to find similar products
     if base_df.empty:
-        return []
+        base_df = recommendation_df[
+            (recommendation_df['product_type'].str.lower().str.contains(product_type.lower())) |
+            (recommendation_df['skintype'].str.lower().str.contains(skintype.lower()))
+        ]
+    
+    # If still no matches, use all products
+    if base_df.empty:
+        base_df = recommendation_df.copy()
 
+    # Calculate similarity
     tfidf_matrix = tfidf_vectorizer.transform(base_df['text'])
     user_text = f"{product_type} {skintype}"
     user_vector = tfidf_vectorizer.transform([user_text])
@@ -40,7 +50,11 @@ def recommend_products(product_type, skintype, max_price, top_n=10):
     base_df = base_df.copy()
     base_df['similarity'] = similarity
 
+    # Filter by price and get top N
     filtered_df = base_df[base_df['price'] <= max_price]
+    if filtered_df.empty:
+        filtered_df = base_df  # If no products within price range, show all
+    
     top_df = filtered_df.sort_values(by='similarity', ascending=False).head(top_n)
 
     recommendations = []
